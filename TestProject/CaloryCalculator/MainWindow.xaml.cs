@@ -20,6 +20,10 @@ namespace CaloryCalculator
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        public MainWindow()
+        {
+            Parser parser = new Parser();
+            parser.ParseData();
+        }
     }
 }

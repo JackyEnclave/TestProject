@@ -5,8 +5,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.IO;
 
-namespace Model
+namespace CaloryCalculator
 {
     class Parser
     {
@@ -22,11 +25,19 @@ namespace Model
         }
         public void ParseData()
         {
-            CreateHtml(CreateLink(0));
-            //for (int i = 0; i<65; i++)
-            //{
-            //    CreateLink(i);
-            //}
+            CreateHtml(CreateLink(1));
+            HtmlNodeCollection htmlNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-title active')]");
+            List<Dish> dishes = new List<Dish>();
+            DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
+            foreach (var node in htmlNodes)
+            {
+                Dish dish = new Dish { Name = node.InnerText.Trim()};
+                dishes.Add(dish);
+            }
+            using (FileStream fs = new FileStream("dishes.json", FileMode.OpenOrCreate))
+            {
+                contractJsonSerializer.WriteObject(fs, dishes);
+            }
         }
     }
 }

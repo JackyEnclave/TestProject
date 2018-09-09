@@ -40,8 +40,12 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\..\..\..\..\..\Downloads\HtmlAgilityPack.dll\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\..\Downloads\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -78,7 +82,6 @@
     <Compile Include="Model\CaloriesCalculator.cs" />
     <Compile Include="Model\Dish.cs" />
     <Compile Include="Model\Parser.cs" />
-    <Compile Include="Model\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
