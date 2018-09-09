@@ -10,7 +10,8 @@ namespace Model
     {
         static void Main(string[] args)
         {
-            
+            Parser parser = new Parser();
+            parser.ParseData();
         }
     }
 }
