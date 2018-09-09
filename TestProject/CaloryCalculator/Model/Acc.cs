@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security;
 
-namespace TestProject
+namespace Model
 {
     class Acc
     {
