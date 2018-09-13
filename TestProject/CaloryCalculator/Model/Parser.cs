@@ -14,29 +14,28 @@ namespace CaloryCalculator
     class Parser
     {
         private static HtmlDocument _htmlDocument = new HtmlDocument();
+        FileStream _fs = new FileStream("dishes.json", FileMode.OpenOrCreate);
+        WebClient webClient = new WebClient();
 
-        public static string CreateLink(int page) => $"http://www.calorizator.ru/product/all?page={page - 1}";
-
-        public static void CreateHtml(string link)
-        {
-            WebClient webClient = new WebClient();
-            webClient.Encoding = Encoding.UTF8;
-            _htmlDocument.LoadHtml(webClient.DownloadString(link));
-        }
         public void ParseData()
         {
-            CreateHtml(CreateLink(1));
-            HtmlNodeCollection htmlNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-title active')]");
-            List<Dish> dishes = new List<Dish>();
-            DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
-            foreach (var node in htmlNodes)
+            webClient.Encoding = Encoding.UTF8;
+            _htmlDocument.LoadHtml(webClient.DownloadString($"http://www.calorizator.ru/product/all"));
+            for (int i = 1; i < int.Parse(_htmlDocument.DocumentNode.SelectSingleNode("//li [@class='pager-last']").InnerText); i++)
             {
-                Dish dish = new Dish { Name = node.InnerText.Trim()};
-                dishes.Add(dish);
-            }
-            using (FileStream fs = new FileStream("dishes.json", FileMode.OpenOrCreate))
-            {
-                contractJsonSerializer.WriteObject(fs, dishes);
+                _htmlDocument.LoadHtml(webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
+                HtmlNodeCollection htmlNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-title active')]");
+                Console.WriteLine($"HTML страницы {i} успешно получен");
+                List<Dish> dishes = new List<Dish>();
+                DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
+                Console.WriteLine($"Json страницы {i} успешно создан");
+                foreach (var node in htmlNodes)
+                {
+                    Dish dish = new Dish { Name = node.InnerText.Trim() };
+                    dishes.Add(dish);
+                    //Console.WriteLine($"Добавлено: {dish.Name}");
+                }
+                contractJsonSerializer.WriteObject(_fs, dishes);
             }
         }
     }
