@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CaloryCalculator
 {
+    [Serializable]
     class Dish
     {
         private string _name;
