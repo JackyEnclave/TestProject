@@ -7,18 +7,12 @@ using System.Threading.Tasks;
 
 namespace CaloryCalculator
 {
-    [DataContract]
     class Dish
     {
-        [DataMember]
         private string _name;
-        [DataMember]
         private double _prots;
-        [DataMember]
         private double _fats;
-        [DataMember]
         private double _carbohyds;
-        [DataMember]
         private double _calories;
         public string Name { get => _name; set => _name = value; }
         public double Prots { get => _prots; set => _prots = value; }

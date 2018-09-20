@@ -5,6 +5,8 @@ using System.Text;
 using HtmlAgilityPack;
 using System.Runtime.Serialization.Json;
 using System.IO;
+using System.Windows;
+using System.Threading;
 
 namespace CaloryCalculator
 {
@@ -37,8 +39,8 @@ namespace CaloryCalculator
                 Console.WriteLine($"Json страницы {i} успешно создан");
                 if (nameNodes.Count != protNodes.Count || protNodes.Count != fatNodes.Count || fatNodes.Count != carbohydNodes.Count)
                 {
-                    Console.WriteLine("Неверно распарсилась страница");
-                    Console.ReadKey();
+                    MessageBox.Show("Неверно распарсилась страница, проверьте подключение к интернету и попробуйте снова", "Что-то пошло не так... :-(((", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Thread.Sleep(1000000);
                 }
                 for (int k = 0; k < nameNodes.Count; k++)
                 {
