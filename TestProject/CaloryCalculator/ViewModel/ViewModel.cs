@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using DevExpress.Mvvm;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CaloryCalculator
 {
@@ -8,7 +9,10 @@ namespace CaloryCalculator
     {
         public ViewModel()
         {
-
+            FileInfo fi = new FileInfo(@"C:\Program Files\CaloryCalculator\dishes.json");
+            Parser parser = new Parser();
+            if (fi == null || fi.Length == 0)
+                parser.ParseData();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

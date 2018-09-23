@@ -13,7 +13,7 @@ namespace CaloryCalculator
     class Parser
     {
         private HtmlDocument _htmlDocument = new HtmlDocument();
-        private FileStream _fs = new FileStream("dishes.json", FileMode.OpenOrCreate);
+        private FileStream _fs = new FileStream(@"C:\Program Files\CaloryCalculator\dishes.json", FileMode.OpenOrCreate);
         private WebClient _webClient = new WebClient();
         private int _lastPage;
 

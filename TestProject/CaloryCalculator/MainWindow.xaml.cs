@@ -22,8 +22,7 @@ namespace CaloryCalculator
     {
         public MainWindow()
         {
-            Parser parser = new Parser();
-            parser.ParseData();
+            InitializeComponent();
         }
     }
 }
