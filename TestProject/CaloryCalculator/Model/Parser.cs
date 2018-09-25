@@ -13,7 +13,6 @@ namespace CaloryCalculator
     class Parser
     {
         private HtmlDocument _htmlDocument = new HtmlDocument();
-        private FileStream _fs = new FileStream(@"C:\Program Files\CaloryCalculator\dishes.json", FileMode.OpenOrCreate);
         private WebClient _webClient = new WebClient();
         private int _lastPage;
 
@@ -26,35 +25,39 @@ namespace CaloryCalculator
 
         public void ParseData()
         {
-            for (int i = 1; i < _lastPage; i++)
+            using (FileStream _fs = new FileStream(@"D:\Program Files\dishes.json", FileMode.OpenOrCreate))
             {
-                _htmlDocument.LoadHtml(_webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
-                HtmlNodeCollection nameNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-title active')]");
-                HtmlNodeCollection protNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-protein-value')]");
-                HtmlNodeCollection fatNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-fat-value')]");
-                HtmlNodeCollection carbohydNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-carbohydrate-value')]");
-                Console.WriteLine($"HTML страницы {i} успешно получен");
-                List<Dish> dishes = new List<Dish>();
-                DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
-                Console.WriteLine($"Json страницы {i} успешно создан");
-                if (nameNodes.Count != protNodes.Count || protNodes.Count != fatNodes.Count || fatNodes.Count != carbohydNodes.Count)
+                for (int i = 1; i < _lastPage; i++)
                 {
-                    MessageBox.Show("Неверно распарсилась страница, проверьте подключение к интернету и попробуйте снова", "Что-то пошло не так... :-(((", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Thread.Sleep(1000000);
+                    _htmlDocument.LoadHtml(_webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
+                    HtmlNodeCollection nameNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-title active')]");
+                    HtmlNodeCollection protNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-protein-value')]");
+                    HtmlNodeCollection fatNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-fat-value')]");
+                    HtmlNodeCollection carbohydNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-carbohydrate-value')]");
+                    Console.WriteLine($"HTML страницы {i} успешно получен");
+                    List<Dish> dishes = new List<Dish>();
+                    DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
+                    Console.WriteLine($"Json страницы {i} успешно создан");
+                    if (nameNodes.Count != protNodes.Count || protNodes.Count != fatNodes.Count || fatNodes.Count != carbohydNodes.Count)
+                    {
+                        MessageBox.Show("Неверно распарсилась страница, проверьте подключение к интернету и попробуйте снова", "Что-то пошло не так... :-(((", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Thread.Sleep(1000000);
+                    }
+                    for (int k = 0; k < nameNodes.Count; k++)
+                    {
+                        Dish dish = new Dish
+                        {
+                            Name = nameNodes[k].InnerText.Trim(),
+                            Prots = Convert.ToDouble(0 + protNodes[k].InnerText.Replace(".", ",").Trim()),
+                            Fats = Convert.ToDouble(0 + fatNodes[k].InnerText.Replace(".", ",").Trim()),
+                            Carbohyds = Convert.ToDouble(0 + carbohydNodes[k].InnerText.Replace(".", ",").Trim()),
+                        };
+                        dish.Calories = Calculator.CalculateCalories(dish);
+                        dishes.Add(dish);
+                        Console.WriteLine($"Добавлено: {dish.Name}\nБелки: {dish.Prots}\nЖиры: {dish.Fats}\nУглеводы: {dish.Carbohyds}\nКалории: {dish.Calories}\n");
+                    }
+                    contractJsonSerializer.WriteObject(_fs, dishes);
                 }
-                for (int k = 0; k < nameNodes.Count; k++)
-                {
-                    Dish dish = new Dish {
-                        Name = nameNodes[k].InnerText.Trim(),
-                        Prots = Convert.ToDouble(0 + protNodes[k].InnerText.Replace(".", ",").Trim()),
-                        Fats = Convert.ToDouble(0 + fatNodes[k].InnerText.Replace(".", ",").Trim()),
-                        Carbohyds = Convert.ToDouble(0 + carbohydNodes[k].InnerText.Replace(".", ",").Trim()),
-                };
-                    dish.Calories = Calculator.CalculateCalories(dish);
-                    dishes.Add(dish);
-                    Console.WriteLine($"Добавлено: {dish.Name}\nБелки: {dish.Prots}\nЖиры: {dish.Fats}\nУглеводы: {dish.Carbohyds}\nКалории: {dish.Calories}\n");
-                }
-                contractJsonSerializer.WriteObject(_fs, dishes);
             }
         }
     }
