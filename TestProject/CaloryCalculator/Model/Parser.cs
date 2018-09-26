@@ -25,7 +25,7 @@ namespace CaloryCalculator
 
         public void ParseData()
         {
-            using (FileStream _fs = new FileStream(@"D:\Program Files\dishes.json", FileMode.OpenOrCreate))
+            using (FileStream _fs = new FileStream(@"C:\Workroom\dishes.json", FileMode.OpenOrCreate))
             {
                 DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
                 List<Dish> dishes = new List<Dish>();
