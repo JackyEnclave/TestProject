@@ -27,6 +27,8 @@ namespace CaloryCalculator
         {
             using (FileStream _fs = new FileStream(@"D:\Program Files\dishes.json", FileMode.OpenOrCreate))
             {
+                DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
+                List<Dish> dishes = new List<Dish>();
                 for (int i = 1; i < _lastPage; i++)
                 {
                     _htmlDocument.LoadHtml(_webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
@@ -34,15 +36,13 @@ namespace CaloryCalculator
                     HtmlNodeCollection protNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-protein-value')]");
                     HtmlNodeCollection fatNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-fat-value')]");
                     HtmlNodeCollection carbohydNodes = _htmlDocument.DocumentNode.SelectNodes(@".//td[contains(@class, 'views-field-field-carbohydrate-value')]");
-                    Console.WriteLine($"HTML страницы {i} успешно получен");
-                    List<Dish> dishes = new List<Dish>();
-                    DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
-                    Console.WriteLine($"Json страницы {i} успешно создан");
+
                     if (nameNodes.Count != protNodes.Count || protNodes.Count != fatNodes.Count || fatNodes.Count != carbohydNodes.Count)
                     {
                         MessageBox.Show("Неверно распарсилась страница, проверьте подключение к интернету и попробуйте снова", "Что-то пошло не так... :-(((", MessageBoxButton.OK, MessageBoxImage.Information);
                         Thread.Sleep(1000000);
                     }
+
                     for (int k = 0; k < nameNodes.Count; k++)
                     {
                         Dish dish = new Dish
@@ -56,8 +56,8 @@ namespace CaloryCalculator
                         dishes.Add(dish);
                         Console.WriteLine($"Добавлено: {dish.Name}\nБелки: {dish.Prots}\nЖиры: {dish.Fats}\nУглеводы: {dish.Carbohyds}\nКалории: {dish.Calories}\n");
                     }
-                    contractJsonSerializer.WriteObject(_fs, dishes);
                 }
+                contractJsonSerializer.WriteObject(_fs, dishes);
             }
         }
     }

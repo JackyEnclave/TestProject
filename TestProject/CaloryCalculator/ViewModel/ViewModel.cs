@@ -17,10 +17,10 @@ namespace CaloryCalculator
                 parser.ParseData();
             }
 
-            DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
             using (FileStream fs = new FileStream(@"D:\Program Files\dishes.json", FileMode.Open))
             {
-                Dish[] dishes = (Dish[])contractJsonSerializer.ReadObject(fs);
+                List<Dish> dishes = (List<Dish>)jsonFormatter.ReadObject(fs);
             }
         }
 
