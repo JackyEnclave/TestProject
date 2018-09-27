@@ -23,7 +23,6 @@ namespace CaloryCalculator
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel viewModel = new ViewModel();
         }
     }
 }
