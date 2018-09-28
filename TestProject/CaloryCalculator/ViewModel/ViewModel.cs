@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Windows;
+using System.Linq;
 
 namespace CaloryCalculator
 {
@@ -11,6 +12,8 @@ namespace CaloryCalculator
     {
         private List<Dish> _dishes;
         public List<string> names = new List<string>();
+        public string dishInfo = null;
+        List <string> todayMeal = new List<string>();
 
         public ViewModel()
         {
@@ -50,6 +53,41 @@ namespace CaloryCalculator
             set
             {
                 OnPropertyChanged(nameof(DishesList));
+            }
+        }
+
+        public string DishInfo
+        {
+            get { return dishInfo; }
+            set
+            {
+                OnPropertyChanged(nameof(DishInfo));
+            }
+        }
+
+        public List<string> TodayMeal
+        {
+            get { return todayMeal; }
+            set
+            {
+                OnPropertyChanged(nameof(TodayMeal));
+            }
+        }
+
+        private string _selectedObject;
+        public string SelectedObject
+        {
+            get { return _selectedObject; }
+            set
+            {
+                _selectedObject = value;
+                OnPropertyChanged(nameof(SelectedObject));
+                var currDish = _dishes.FirstOrDefault(x => x.Name == _selectedObject);
+                dishInfo = $"{currDish.Name}\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
+                DishInfo = dishInfo;
+
+                TodayMeal = todayMeal;
+                todayMeal.Add(currDish.Name);
             }
         }
     }
