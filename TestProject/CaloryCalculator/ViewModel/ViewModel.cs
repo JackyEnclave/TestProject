@@ -11,10 +11,11 @@ namespace CaloryCalculator
     class ViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private List<Dish> _dishes;
-        public List<string> names = new List<string>();
-        public string dishInfo = null;
+        private List<string> names = new List<string>();
+        private string dishInfo = null;
         List <string> todayMeal = new List<string>();
-
+        private Dish currDish = new Dish();
+        View.DishQuantity dishQuantity;
         public ViewModel()
         {
             if (!Directory.Exists(@"C:\Users\Public\Calorizzation"))
@@ -65,9 +66,9 @@ namespace CaloryCalculator
             }
         }
 
-        public List<string> TodayMeal
+        public string[] TodayMeal
         {
-            get { return todayMeal; }
+            get { return todayMeal.ToArray(); }
             set
             {
                 OnPropertyChanged(nameof(TodayMeal));
@@ -82,12 +83,27 @@ namespace CaloryCalculator
             {
                 _selectedObject = value;
                 OnPropertyChanged(nameof(SelectedObject));
-                var currDish = _dishes.FirstOrDefault(x => x.Name == _selectedObject);
+                dishQuantity = new View.DishQuantity();
+                currDish = _dishes.FirstOrDefault(x => x.Name == _selectedObject);
                 dishInfo = $"{currDish.Name}\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
+                double _dishCalory = currDish.Calories * _dishQuantity;
+                todayMeal.Add($"{currDish.Name} ({_dishQuantity} гр./{_dishCalory} ккал)");
+                TodayMeal = todayMeal.ToArray();
                 DishInfo = dishInfo;
+                dishQuantity.Show();
 
-                TodayMeal = todayMeal;
-                todayMeal.Add(currDish.Name);
+                dishQuantity.Close();
+            }
+        }
+
+        private double _dishQuantity;
+        public double DishQuantity
+        {
+            get { return _dishQuantity; }
+            set
+           {
+                _dishQuantity = value;
+                RaisePropertyChanged(() => DishQuantity);
             }
         }
     }
