@@ -23,6 +23,7 @@ namespace CaloryCalculator
             _lastPage = int.Parse(_htmlDocument.DocumentNode.SelectSingleNode("//li [@class='pager-last']").InnerText);
         }
 
+
         public void ParseData()
         {
             using (FileStream _fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.OpenOrCreate))
