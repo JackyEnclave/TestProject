@@ -14,7 +14,6 @@ namespace CaloryCalculator
         private List<string> names = new List<string>();
         private string dishInfo = null;
         List <string> todayMeal = new List<string>();
-        private Dish currDish = new Dish();
         View.DishQuantity dishQuantity;
         public ViewModel()
         {
@@ -81,6 +80,8 @@ namespace CaloryCalculator
             get { return _selectedObject; }
             set
             {
+                Dish currDish = new Dish();
+
                 _selectedObject = value;
                 OnPropertyChanged(nameof(SelectedObject));
                 dishQuantity = new View.DishQuantity();
