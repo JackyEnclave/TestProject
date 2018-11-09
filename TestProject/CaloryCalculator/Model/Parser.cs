@@ -12,18 +12,6 @@ namespace CaloryCalculator
 {
     class Parser
     {
-        private HtmlDocument _htmlDocument = new HtmlDocument();
-        private WebClient _webClient = new WebClient();
-        private int _lastPage;
-
-        public Parser()
-        {
-            _webClient.Encoding = Encoding.UTF8;
-            _htmlDocument.LoadHtml(_webClient.DownloadString($"http://www.calorizator.ru/product/all"));
-            _lastPage = int.Parse(_htmlDocument.DocumentNode.SelectSingleNode("//li [@class='pager-last']").InnerText);
-        }
-
-
         public void ParseData()
         {
             WebClient webClient = new WebClient();
