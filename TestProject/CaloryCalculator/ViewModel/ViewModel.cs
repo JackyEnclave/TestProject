@@ -17,17 +17,9 @@ namespace CaloryCalculator
         View.DishQuantity dishQuantity;
         public ViewModel()
         {
-            if (!Directory.Exists(@"C:\Users\Public\Calorizzation"))
-                Directory.CreateDirectory(@"C:\Users\Public\Calorizzation");
-            FileInfo fi = new FileInfo(@"C:\Users\Public\Calorizzation\dishes.json");
+            if (!Parser.CheckOrCreateDirectory())
+                Parser.ParseData();
 
-            if (!fi.Exists || fi.Length == 0)
-            {
-                Parser parser = new Parser();
-                MessageBox.Show("Это может занять пару минут", "Идет обновление базы данных", MessageBoxButton.OK, MessageBoxImage.Information);
-                parser.ParseData();
-            }
-            
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
             using (FileStream fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.Open))
             {

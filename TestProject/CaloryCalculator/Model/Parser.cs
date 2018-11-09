@@ -12,8 +12,10 @@ namespace CaloryCalculator
 {
     class Parser
     {
-        public void ParseData()
+        public static void ParseData()
         {
+            MessageBox.Show("Это может занять пару минут", "Идет обновление базы данных", MessageBoxButton.OK, MessageBoxImage.Information);
+
             WebClient webClient = new WebClient();
             webClient.Encoding = Encoding.UTF8;
 
@@ -75,6 +77,22 @@ namespace CaloryCalculator
                 Console.WriteLine($"Добавлено: {dish.Name}\nБелки: {dish.Prots}\nЖиры: {dish.Fats}\nУглеводы: {dish.Carbohyds}\nКалории: {dish.Calories}\n");
             }
             return dishes;
+        }
+
+        /// <summary>
+        /// Проверка наличия директории и json
+        /// </summary>
+        public static bool CheckOrCreateDirectory()
+        {
+            if (!Directory.Exists(@"C:\Users\Public\Calorizzation"))
+                Directory.CreateDirectory(@"C:\Users\Public\Calorizzation");
+
+            FileInfo fi = new FileInfo(@"C:\Users\Public\Calorizzation\dishes.json");
+
+            if (!fi.Exists || fi.Length == 0)
+                return false;
+            else
+                return true;
         }
     }
 }
