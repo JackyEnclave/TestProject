@@ -5,9 +5,39 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Windows;
 using System.Linq;
+using System;
+using System.Windows.Input;
 
 namespace CaloryCalculator
 {
+    public class RelayCommand : ICommand
+    {
+        private Action<object> execute;
+        private Func<object, bool> canExecute;
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        {
+            this.execute = execute;
+            this.canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return this.canExecute == null || this.canExecute(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            this.execute(parameter);
+        }
+    }
+
     class ViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private List<Dish> _dishes;
@@ -30,6 +60,20 @@ namespace CaloryCalculator
             foreach (var dish in _dishes)
             {
                 names.Add(dish.Name);
+            }
+        }
+
+        private bool OK;
+        private RelayCommand buttonOK;
+        public RelayCommand ButtonOK
+        {
+            get
+            {
+                return buttonOK ??
+                    (buttonOK = new RelayCommand(obj =>
+                    {
+                        OK = true;
+                    }));
             }
         }
 
@@ -83,9 +127,7 @@ namespace CaloryCalculator
                 todayMeal.Add($"{currDish.Name} ({_dishQuantity} гр./{_dishCalory} ккал)");
                 TodayMeal = todayMeal.ToArray();
                 DishInfo = dishInfo;
-                dishQuantity.Show();
-
-                dishQuantity.Close();
+                dishQuantity.ShowDialog();
             }
         }
 
