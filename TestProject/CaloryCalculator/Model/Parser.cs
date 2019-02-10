@@ -16,8 +16,7 @@ namespace CaloryCalculator
         {
             MessageBox.Show("Это может занять пару минут", "Идет обновление базы данных", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            WebClient webClient = new WebClient();
-            webClient.Encoding = Encoding.UTF8;
+            WebClient webClient = new WebClient {Encoding = Encoding.UTF8};
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(webClient.DownloadString($"http://www.calorizator.ru/product/all")); //забираем начальную страницу
@@ -89,10 +88,7 @@ namespace CaloryCalculator
 
             FileInfo fi = new FileInfo(@"C:\Users\Public\Calorizzation\dishes.json");
 
-            if (!fi.Exists || fi.Length == 0)
-                return false;
-            else
-                return true;
+            return fi.Exists && fi.Length != 0;
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         xmlns:local="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
-        Title="Ну, и сколько ты сожрал(а)?" Height="120" Width="300" ResizeMode="NoResize">
+        Title="Ну, и сколько ты сожрал(а)?" Height="120" Width="300" ResizeMode="NoResize" >
         <Window.DataContext>
             <viewmodel:ViewModel/>
         </Window.DataContext>
@@ -14,11 +14,7 @@
         <TextBox
             Height="25"
             Width="150"
-            Margin="72,14,72,52"/>
-        <Button 
-            Height="25"
-            Width="80" RenderTransformOrigin="0.513,1.254" Margin="107,51,107,15"
-            Content="OK"
-            Command="{Binding ButtonOK}"/>
+            Margin="72,14,72,52"
+            Text="{Binding DishQuantity}"/>
     </Grid>
 </Window>

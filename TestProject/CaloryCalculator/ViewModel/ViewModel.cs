@@ -5,46 +5,20 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Windows;
 using System.Linq;
-using System;
-using System.Windows.Input;
 
 namespace CaloryCalculator
 {
-    public class RelayCommand : ICommand
+    class CurrentDish
     {
-        private Action<object> execute;
-        private Func<object, bool> canExecute;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
-        {
-            this.execute = execute;
-            this.canExecute = canExecute;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return this.canExecute == null || this.canExecute(parameter);
-        }
-
-        public void Execute(object parameter)
-        {
-            this.execute(parameter);
-        }
+        public static double Quantity { get; set; }
     }
 
     class ViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private List<Dish> _dishes;
+        private List<Dish> Dishes { get; }
         private List<string> names = new List<string>();
-        private string dishInfo = null;
         List <string> todayMeal = new List<string>();
-        View.DishQuantity dishQuantity;
+
         public ViewModel()
         {
             if (!Parser.CheckOrCreateDirectory())
@@ -53,27 +27,13 @@ namespace CaloryCalculator
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
             using (FileStream fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.Open))
             {
-                _dishes = (List<Dish>)jsonFormatter.ReadObject(fs);
+                Dishes = (List<Dish>)jsonFormatter.ReadObject(fs);
                 DishesList = names;
             }
 
-            foreach (var dish in _dishes)
+            foreach (var dish in Dishes)
             {
                 names.Add(dish.Name);
-            }
-        }
-
-        private bool OK;
-        private RelayCommand buttonOK;
-        public RelayCommand ButtonOK
-        {
-            get
-            {
-                return buttonOK ??
-                    (buttonOK = new RelayCommand(obj =>
-                    {
-                        OK = true;
-                    }));
             }
         }
 
@@ -85,60 +45,47 @@ namespace CaloryCalculator
 
         public List<string> DishesList
         {
-            get { return names; }
-            set
-            {
-                OnPropertyChanged(nameof(DishesList));
-            }
+            get => names;
+            set => OnPropertyChanged(nameof(DishesList));
         }
 
+        private string dishInfo;
         public string DishInfo
         {
-            get { return dishInfo; }
-            set
-            {
-                OnPropertyChanged(nameof(DishInfo));
-            }
+            get => dishInfo;
+            set => OnPropertyChanged(nameof(DishInfo));
         }
 
-        public string[] TodayMeal
+        public List<string> TodayMeal
         {
-            get { return todayMeal.ToArray(); }
-            set
-            {
-                OnPropertyChanged(nameof(TodayMeal));
-            }
-        }
-
-        private string _selectedObject;
-        public string SelectedObject
-        {
-            get { return _selectedObject; }
-            set
-            {
-                Dish currDish = new Dish();
-
-                _selectedObject = value;
-                OnPropertyChanged(nameof(SelectedObject));
-                dishQuantity = new View.DishQuantity();
-                currDish = _dishes.FirstOrDefault(x => x.Name == _selectedObject);
-                dishInfo = $"{currDish.Name}\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
-                double _dishCalory = currDish.Calories * _dishQuantity;
-                todayMeal.Add($"{currDish.Name} ({_dishQuantity} гр./{_dishCalory} ккал)");
-                TodayMeal = todayMeal.ToArray();
-                DishInfo = dishInfo;
-                dishQuantity.ShowDialog();
-            }
+            get => todayMeal.ToList();
+            set => OnPropertyChanged(nameof(TodayMeal));
         }
 
         private double _dishQuantity;
         public double DishQuantity
         {
-            get { return _dishQuantity; }
+            get => _dishQuantity;
+            set => CurrentDish.Quantity = value;
+        }
+
+        private string _selectedObject;
+        public string SelectedObject
+        {
+            get => _selectedObject;
             set
-           {
-                _dishQuantity = value;
-                RaisePropertyChanged(() => DishQuantity);
+            {
+                Dish currDish = new Dish();
+
+                currDish = Dishes.FirstOrDefault(x => x.Name == value);
+                dishInfo = $"{currDish.Name}\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
+                View.DishQuantity dishQuantity = new View.DishQuantity();
+                dishQuantity.ShowDialog();
+
+                double _dishCalory = currDish.Calories * CurrentDish.Quantity/100;
+                todayMeal.Add($"{currDish.Name} ({CurrentDish.Quantity} гр./{_dishCalory} ккал)");
+                TodayMeal = todayMeal;
+                DishInfo = dishInfo;
             }
         }
     }
