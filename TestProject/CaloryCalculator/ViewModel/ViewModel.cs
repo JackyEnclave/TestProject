@@ -12,9 +12,8 @@ namespace CaloryCalculator
     {
         private List<Dish> Dishes { get; }
         private readonly List<string> names = new List<string>();
-        private readonly List <string> todayMeal = new List<string>();
+        private List <string> todayMeal;
         private readonly List <Dish> todayDishesList = new List<Dish>();
-        private static double Quantity { get; set; }
 
         public ViewModel()
         {
@@ -55,15 +54,15 @@ namespace CaloryCalculator
 
         public List<string> TodayMeal
         {
-            get => todayMeal.ToList();
+            get => todayMeal;
             set => OnPropertyChanged(nameof(TodayMeal));
         }
 
-        private double _dishQuantity;
-        public double DishQuantity
+        private static double _dishQuantity;
+        public static double DishQuantity
         {
             get => _dishQuantity;
-            set => Quantity = value;
+            set => _dishQuantity = value;
         }
 
         private string _selectedObject;
@@ -72,23 +71,13 @@ namespace CaloryCalculator
             get => _selectedObject;
             set
             {
-                Dish currDish = new Dish();
-                currDish = Dishes.FirstOrDefault(x => x.Name == value);
-                dishInfo = $"{currDish.Name}\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
+                Dish currDish = Dishes.FirstOrDefault(x => x.Name == value);
+                DishInfo = dishInfo = $"{currDish.Name}\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
+
                 View.DishQuantity dishQuantity = new View.DishQuantity();
                 dishQuantity.ShowDialog();
-                currDish.Quantity = Quantity;
-                if (todayDishesList.Contains(currDish))
-                {
-                    var dish = todayDishesList.FirstOrDefault(x => x.Name == currDish.Name);
-                    todayDishesList[todayDishesList.IndexOf(dish)].Quantity += Quantity;
-                    todayMeal[todayMeal.IndexOf(dish.Name)] =
-                        $"{dish.Name} ({Quantity} гр./{currDish.Calories * currDish.Quantity / 100} ккал)";
-                }
-                todayDishesList.Add(currDish);
-                todayMeal.Add($"{currDish.Name} ({Quantity} гр./{currDish.Calories * currDish.Quantity / 100} ккал)");
-                TodayMeal = todayMeal;
-                DishInfo = dishInfo;
+                
+                TodayMeal = todayMeal = Parser.CreateDishesList(currDish, DishQuantity, todayDishesList);
             }
         }
     }

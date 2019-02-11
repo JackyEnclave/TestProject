@@ -81,7 +81,7 @@ namespace CaloryCalculator
         /// <summary>
         /// Проверка наличия директории и json
         /// </summary>
-        public static bool CheckOrCreateDirectory()
+        internal static bool CheckOrCreateDirectory()
         {
             if (!Directory.Exists(@"C:\Users\Public\Calorizzation"))
                 Directory.CreateDirectory(@"C:\Users\Public\Calorizzation");
@@ -89,6 +89,27 @@ namespace CaloryCalculator
             FileInfo fi = new FileInfo(@"C:\Users\Public\Calorizzation\dishes.json");
 
             return fi.Exists && fi.Length != 0;
+        }
+
+        /// <summary>
+        /// Создание списка захомяченых продуктов
+        /// </summary>
+        internal static List<string> CreateDishesList(Dish currDish, double dishQuantity, List<Dish> todayDishesList)
+        {
+            if (todayDishesList.Contains(currDish))
+            {
+                todayDishesList[todayDishesList.IndexOf(currDish)].Quantity += dishQuantity;
+            }
+            else if (dishQuantity != 0)
+            {
+                currDish.Quantity = dishQuantity;
+                todayDishesList.Add(currDish);
+            }
+
+            var todayMeal = new List<string>();
+            foreach (var dish in todayDishesList)
+                todayMeal.Add($"{dish.Name} ({dish.Quantity} гр./{dish.Calories * dish.Quantity / 100} ккал)");
+            return todayMeal;
         }
     }
 }
