@@ -14,7 +14,6 @@ namespace CaloryCalculator
     {
         public static void ParseData()
         {
-            //MessageBox.Show("Это может занять пару минут", "Идет обновление базы данных", MessageBoxButton.OK, MessageBoxImage.Information);
             WebClient webClient = new WebClient {Encoding = Encoding.UTF8};
 
             HtmlDocument htmlDocument = new HtmlDocument();
@@ -93,15 +92,15 @@ namespace CaloryCalculator
         /// <summary>
         /// Создание списка захомяченых продуктов
         /// </summary>
-        internal static List<string> CreateDishesList(Dish currDish, double dishQuantity, List<Dish> todayDishesList)
+        internal static List<string> CreateDishesList(Dish currDish, double? dishQuantity, List<Dish> todayDishesList)
         {
-            if (todayDishesList.Contains(currDish))
+            if (todayDishesList.Contains(currDish) && dishQuantity != null)
             {
-                todayDishesList[todayDishesList.IndexOf(currDish)].Quantity += dishQuantity;
+                todayDishesList[todayDishesList.IndexOf(currDish)].Quantity += (double)dishQuantity;
             }
-            else if (dishQuantity != 0)
+            else if (dishQuantity != null && dishQuantity != 0)
             {
-                currDish.Quantity = dishQuantity;
+                currDish.Quantity = (double)dishQuantity;
                 todayDishesList.Add(currDish);
             }
 

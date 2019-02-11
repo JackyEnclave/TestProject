@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CaloryCalculator"
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
-            Title="MainWindow" Height="600" Width="1000" ResizeMode="NoResize">
+            Title="Calorizzation" Height="600" Width="1000" ResizeMode="NoResize">
         <Window.DataContext>
             <viewmodel:ViewModel/>
         </Window.DataContext>

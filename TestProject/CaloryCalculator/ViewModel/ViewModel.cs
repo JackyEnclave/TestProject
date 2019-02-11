@@ -62,7 +62,7 @@ namespace CaloryCalculator
             get => todayMeal;
             set => OnPropertyChanged(nameof(TodayMeal));
         }
-        public static double DishQuantity { get; set; }
+        public static double? DishQuantity { get; set; }
 
         private string _selectedObject;
         public string SelectedObject
@@ -77,6 +77,8 @@ namespace CaloryCalculator
                 dishQuantity.ShowDialog();
                 
                 TodayMeal = todayMeal = Parser.CreateDishesList(currDish, DishQuantity, todayDishesList);
+
+                DishQuantity = null;
             }
         }
     }
