@@ -14,8 +14,7 @@ namespace CaloryCalculator
     {
         public static void ParseData()
         {
-            MessageBox.Show("Это может занять пару минут", "Идет обновление базы данных", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            //MessageBox.Show("Это может занять пару минут", "Идет обновление базы данных", MessageBoxButton.OK, MessageBoxImage.Information);
             WebClient webClient = new WebClient {Encoding = Encoding.UTF8};
 
             HtmlDocument htmlDocument = new HtmlDocument();

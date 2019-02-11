@@ -18,7 +18,12 @@ namespace CaloryCalculator
         public ViewModel()
         {
             if (!Parser.CheckOrCreateDirectory())
+            {
+                View.Refresh refresh = new View.Refresh();
+                refresh.Show();
                 Parser.ParseData();
+                refresh.Close();
+            }
 
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
             using (FileStream fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.Open))
@@ -57,13 +62,7 @@ namespace CaloryCalculator
             get => todayMeal;
             set => OnPropertyChanged(nameof(TodayMeal));
         }
-
-        private static double _dishQuantity;
-        public static double DishQuantity
-        {
-            get => _dishQuantity;
-            set => _dishQuantity = value;
-        }
+        public static double DishQuantity { get; set; }
 
         private string _selectedObject;
         public string SelectedObject
