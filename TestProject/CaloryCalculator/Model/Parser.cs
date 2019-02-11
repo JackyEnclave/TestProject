@@ -25,7 +25,15 @@ namespace CaloryCalculator
 
             for (int i = 1; i < lastPage; i++)
             {
-                htmlDocument.LoadHtml(webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
+                try
+                {
+                    htmlDocument.LoadHtml(webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
+                }
+                catch
+                {
+                    MessageBox.Show("Проверьте подключение к интернету и попробуйте снова", "Что-то пошло не так... :-(((", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Thread.Sleep(1000000);
+                }
                 HtmlNodeCollection nameNodes = FindHtmlNodes(htmlDocument, @".//td[contains(@class, 'views-field-title active')]");
                 HtmlNodeCollection protNodes = FindHtmlNodes(htmlDocument, @".//td[contains(@class, 'views-field-field-protein-value')]");
                 HtmlNodeCollection fatNodes = FindHtmlNodes(htmlDocument, @".//td[contains(@class, 'views-field-field-fat-value')]");
@@ -41,6 +49,7 @@ namespace CaloryCalculator
                 dishes.AddRange(GetDishesList(nameNodes, protNodes, fatNodes, carbohydNodes));
             }
 
+            File.Delete(@"C:\Users\Public\Calorizzation\dishes.json");
             using (FileStream _fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.OpenOrCreate))
             {
                 DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));

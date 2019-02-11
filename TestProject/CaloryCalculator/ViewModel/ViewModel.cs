@@ -5,36 +5,40 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Windows;
 using System.Linq;
+using System.Windows.Input;
 
 namespace CaloryCalculator
 {
     class ViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private List<Dish> Dishes { get; }
+        private List<Dish> Dishes { get; set; }
         private readonly List<string> names = new List<string>();
-        private List <string> todayMeal;
-        private readonly List <Dish> todayDishesList = new List<Dish>();
+        private List<string> todayMeal;
+        private readonly List<Dish> todayDishesList = new List<Dish>();
 
+        public ViewModel(bool isClicked = false)
+        {
+            if (isClicked)
+                SendRequestToRefresh();
+            DeserealizeJson(this);
+        }
         public ViewModel()
         {
             if (!Parser.CheckOrCreateDirectory())
-            {
-                View.Refresh refresh = new View.Refresh();
-                refresh.Show();
-                Parser.ParseData();
-                refresh.Close();
-            }
+                SendRequestToRefresh();
+            DeserealizeJson(this);
+        }
 
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
-            using (FileStream fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.Open))
+        private RelayCommand buttonRefresh;
+        public RelayCommand RefreshButtonClick
+        {
+            get
             {
-                Dishes = (List<Dish>)jsonFormatter.ReadObject(fs);
-                DishesList = names;
-            }
-
-            foreach (var dish in Dishes)
-            {
-                names.Add(dish.Name);
+                return buttonRefresh ??
+                    (buttonRefresh = new RelayCommand(obj =>
+                    {
+                        ViewModel vm = new ViewModel(true);
+                    }));
             }
         }
 
@@ -64,10 +68,8 @@ namespace CaloryCalculator
         }
         public static double? DishQuantity { get; set; }
 
-        private string _selectedObject;
         public string SelectedObject
         {
-            get => _selectedObject;
             set
             {
                 Dish currDish = Dishes.FirstOrDefault(x => x.Name == value);
@@ -79,6 +81,29 @@ namespace CaloryCalculator
                 TodayMeal = todayMeal = Parser.CreateDishesList(currDish, DishQuantity, todayDishesList);
 
                 DishQuantity = null;
+            }
+        }
+
+        private static void SendRequestToRefresh()
+        {
+            View.Refresh refresh = new View.Refresh();
+            refresh.Show();
+            Parser.ParseData();
+            refresh.Close();
+        }
+
+        private static void DeserealizeJson(ViewModel vm)
+        {
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
+            using (FileStream fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.Open))
+            {
+                vm.Dishes = (List<Dish>)jsonFormatter.ReadObject(fs);
+                vm.DishesList = vm.names;
+            }
+
+            foreach (var dish in vm.Dishes)
+            {
+                vm.names.Add(dish.Name);
             }
         }
     }
