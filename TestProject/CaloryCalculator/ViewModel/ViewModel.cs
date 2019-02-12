@@ -9,28 +9,30 @@ using System.Windows.Input;
 
 namespace CaloryCalculator
 {
+    delegate string stringCreator (Dish currDish);
     class ViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private List<Dish> Dishes { get; set; }
-        private readonly List<Dish> todayDishesList = new List<Dish>();
+        private List<Dish> _dishes = new List<Dish>();
+        private List<Dish> _todayDishesList = new List<Dish>();
 
         public ViewModel()
         {
             if (!Parser.CheckOrCreateDirectory())
                 SendRequestToRefresh();
-            DeserealizeJson(this);
+            DishesList = _names = DeserealizeJson("dishes", Parser.returnCleanString, ref _dishes);
+            TodayMeal = _todayMeal = DeserealizeJson("todaydishes", Parser.returnStringWithInfo, ref _todayDishesList);
         }
 
-        private RelayCommand buttonRefresh;
+        private RelayCommand _buttonRefresh;
         public RelayCommand RefreshButtonClick
         {
             get
             {
-            return buttonRefresh ??
-                (buttonRefresh = new RelayCommand(obj =>
+            return _buttonRefresh ??
+                (_buttonRefresh = new RelayCommand(obj =>
                 {
                     SendRequestToRefresh();
-                    DeserealizeJson(this);
+                    DishesList = _names = DeserealizeJson("dishes", Parser.returnCleanString, ref _dishes);
                 }));
             }
         }
@@ -41,31 +43,31 @@ namespace CaloryCalculator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private List<string> names;
+        private List<string> _names;
         public List<string> DishesList
         {
-            get => names;
+            get => _names;
             set => OnPropertyChanged(nameof(DishesList));
         }
 
-        private string caloriesSum = "0 ккал";
+        private string _caloriesSum = "0 ккал";
         public string CaloriesSum
         {
-            get => caloriesSum;
+            get => _caloriesSum;
             set => OnPropertyChanged(nameof(CaloriesSum));
         }
 
-        private string dishInfo;
+        private string _dishInfo;
         public string DishInfo
         {
-            get => dishInfo;
+            get => _dishInfo;
             set => OnPropertyChanged(nameof(DishInfo));
         }
 
-        private List<string> todayMeal;
+        private List<string> _todayMeal;
         public List<string> TodayMeal
         {
-            get => todayMeal;
+            get => _todayMeal;
             set => OnPropertyChanged(nameof(TodayMeal));
         }
         public static double? DishQuantity { get; set; }
@@ -74,15 +76,15 @@ namespace CaloryCalculator
         {
             set
             {
-                Dish currDish = Dishes.FirstOrDefault(x => x.Name == value);
-                DishInfo = dishInfo = Parser.CreateDishInfo(currDish);
+                Dish currDish = _dishes.FirstOrDefault(x => x.Name == value);
+                DishInfo = _dishInfo = Parser.CreateDishInfo(currDish);
 
                 View.DishQuantity dishQuantity = new View.DishQuantity();
                 dishQuantity.ShowDialog();
                 
-                TodayMeal = todayMeal = Parser.CreateDishesList(currDish, DishQuantity, todayDishesList);
-                CaloriesSum = caloriesSum = Parser.CalculateSum(todayDishesList);
-                Parser.SerializeToJson("todaydishes", todayDishesList);
+                TodayMeal = _todayMeal = Parser.CreateDishesList(currDish, DishQuantity, _todayDishesList);
+                CaloriesSum = _caloriesSum = Parser.CalculateSum(_todayDishesList);
+                Parser.SerializeToJson("todaydishes", _todayDishesList);
 
                 DishQuantity = null;
             }
@@ -94,22 +96,21 @@ namespace CaloryCalculator
             refresh.Show();
             Parser.ParseData();
             refresh.Close();
-            refresh = null;
         }
 
-        private static void DeserealizeJson(ViewModel vm)
+        private static List<string> DeserealizeJson(string fileName, stringCreator function, ref List<Dish> targetDishesList)
         {
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
-            using (FileStream fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.Open))
+            using (FileStream fs = new FileStream($@"C:\Users\Public\Calorizzation\{fileName}.json", FileMode.Open))
             {
-                vm.Dishes = (List<Dish>)jsonFormatter.ReadObject(fs);
+                targetDishesList = (List<Dish>)jsonFormatter.ReadObject(fs);
             }
-            vm.names = new List<string>();
-            foreach (var dish in vm.Dishes)
+            List<string> names = new List<string>();
+            foreach (var dish in targetDishesList)
             {
-                vm.names.Add(dish.Name);
+                names.Add(function?.Invoke(dish));
             }
-            vm.DishesList = vm.names;
+            return names;
         }
     }
 }

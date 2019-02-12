@@ -110,7 +110,7 @@ namespace CaloryCalculator
 
             var todayMeal = new List<string>();
             foreach (var dish in todayDishesList)
-                todayMeal.Add($"{dish.Name} ({dish.Quantity} гр./{dish.Calories * dish.Quantity / 100} ккал)");
+                todayMeal.Add(returnStringWithInfo(dish));
             return todayMeal;
         }
 
@@ -160,5 +160,10 @@ namespace CaloryCalculator
                 contractJsonSerializer.WriteObject(_fs, dishes); //запись в json
             }
         }
+
+        internal static string returnCleanString(Dish currDish) => currDish.Name;
+
+        internal static string returnStringWithInfo(Dish currDish) =>
+            $"{currDish.Name} ({currDish.Quantity} гр./{currDish.Calories * currDish.Quantity / 100} ккал)";
     }
 }

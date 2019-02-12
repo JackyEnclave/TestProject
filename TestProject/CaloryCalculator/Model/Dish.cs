@@ -15,8 +15,7 @@ namespace CaloryCalculator
         private double _fats;
         private double _carbohyds;
         private double _calories;
-        [NonSerialized]
-        private double _quantity;
+        private double _quantity = 0;
         public string Name { get => _name; set => _name = value; }
         public double Prots { get => _prots; set => _prots = value; }
         public double Fats { get => _fats; set => _fats = value; }
