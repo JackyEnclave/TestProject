@@ -7,14 +7,16 @@
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
             Title="Calorizzation" Height="600" Width="1000" ResizeMode="NoResize">
-        <Window.DataContext>
-            <viewmodel:ViewModel/>
-        </Window.DataContext>
+    <Window.DataContext>
+        <viewmodel:ViewModel/>
+    </Window.DataContext>
     <Grid>
-        <Button Height="50" 
-                Width="200" 
+        <Button Height="40" 
+                Width="180" 
                 Margin="178,491,614,28" 
-                Content="ОБНОВИТЬ" FontSize="25" 
+                Content="Обновить" 
+                FontSize="25" 
+                FontFamily="Courier New"
                 RenderTransformOrigin="0.965,0.87" 
                 Cursor="Hand"
                 Command="{Binding RefreshButtonClick}"/>
@@ -29,12 +31,16 @@
                 Margin="82,24,510,83" 
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left"/>
-        <TextBlock Height="200" 
+        <TextBlock 
                  Width="400" 
                  x:Name="info"
                  Text="{Binding DishInfo}"
+                 FontFamily="Courier New"
+                 FontWeight = "Bold"
+                 FontSize="20"
+                 TextAlignment="Center"
                  RenderTransformOrigin="1.118,0.505" 
-                 Margin="514,236,78,133"/>
+                 Margin="515,237,79,135"/>
         <ListBox Width="400"
                 Height="200"
                 x:Name="todaymeal"

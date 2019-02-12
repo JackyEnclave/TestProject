@@ -68,7 +68,7 @@ namespace CaloryCalculator
             set
             {
                 Dish currDish = Dishes.FirstOrDefault(x => x.Name == value);
-                DishInfo = dishInfo = $"{currDish.Name}\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
+                DishInfo = dishInfo = Parser.CreateDishInfo(currDish);
 
                 View.DishQuantity dishQuantity = new View.DishQuantity();
                 dishQuantity.ShowDialog();

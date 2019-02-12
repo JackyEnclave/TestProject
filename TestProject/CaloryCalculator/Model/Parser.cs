@@ -118,5 +118,28 @@ namespace CaloryCalculator
                 todayMeal.Add($"{dish.Name} ({dish.Quantity} гр./{dish.Calories * dish.Quantity / 100} ккал)");
             return todayMeal;
         }
+
+        /// <summary>
+        /// Создание информации о блюде для корректного вывода с учетом длины строки
+        /// </summary>
+        internal static string CreateDishInfo(Dish currDish)
+        {
+            string newCurrDishName = string.Empty;
+            var splittingCurrDishName = currDish.Name.Split(' ');
+            int stringLenght = 25; //максимальная длина строки, помещающаяся на строчку в wpf
+
+            foreach (var name in splittingCurrDishName)
+            {
+                if (newCurrDishName.Length > stringLenght)
+                {
+                    newCurrDishName = $"{newCurrDishName}\n{name}";
+                    stringLenght += stringLenght;
+                }
+                else
+                    newCurrDishName = $"{newCurrDishName} {name}";
+            }
+
+            return $"{newCurrDishName}\n-----------\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
+        }
     }
 }
