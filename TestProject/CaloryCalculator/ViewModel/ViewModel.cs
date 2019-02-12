@@ -82,6 +82,7 @@ namespace CaloryCalculator
                 
                 TodayMeal = todayMeal = Parser.CreateDishesList(currDish, DishQuantity, todayDishesList);
                 CaloriesSum = caloriesSum = Parser.CalculateSum(todayDishesList);
+                Parser.SerializeToJson("todaydishes", todayDishesList);
 
                 DishQuantity = null;
             }
@@ -93,6 +94,7 @@ namespace CaloryCalculator
             refresh.Show();
             Parser.ParseData();
             refresh.Close();
+            refresh = null;
         }
 
         private static void DeserealizeJson(ViewModel vm)

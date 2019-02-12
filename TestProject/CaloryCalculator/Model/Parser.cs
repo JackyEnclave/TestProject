@@ -49,12 +49,7 @@ namespace CaloryCalculator
                 dishes.AddRange(GetDishesList(nameNodes, protNodes, fatNodes, carbohydNodes));
             }
 
-            File.Delete(@"C:\Users\Public\Calorizzation\dishes.json");
-            using (FileStream _fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.OpenOrCreate))
-            {
-                DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
-                contractJsonSerializer.WriteObject(_fs, dishes); //запись в json
-            }
+            SerializeToJson("dishes", dishes);
         }
 
         /// <summary>
@@ -154,6 +149,16 @@ namespace CaloryCalculator
                 sum += dish.Quantity*dish.Calories/100;
             }
             return $"{sum} ккал";
+        }
+
+        internal static void SerializeToJson(string fileName, List<Dish> dishes)
+        {
+            File.Delete($@"C:\Users\Public\Calorizzation\{fileName}.json");
+            using (FileStream _fs = new FileStream($@"C:\Users\Public\Calorizzation\{fileName}.json", FileMode.OpenOrCreate))
+            {
+                DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
+                contractJsonSerializer.WriteObject(_fs, dishes); //запись в json
+            }
         }
     }
 }
