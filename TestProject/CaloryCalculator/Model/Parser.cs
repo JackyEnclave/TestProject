@@ -23,7 +23,7 @@ namespace CaloryCalculator
 
             List<Dish> dishes = new List<Dish>();
 
-            for (int i = 1; i < lastPage; i++)
+            for (int i = 1; i < 3; i++)
             {
                 try
                 {

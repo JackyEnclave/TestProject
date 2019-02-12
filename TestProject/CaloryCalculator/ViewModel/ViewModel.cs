@@ -12,16 +12,8 @@ namespace CaloryCalculator
     class ViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private List<Dish> Dishes { get; set; }
-        private readonly List<string> names = new List<string>();
-        private List<string> todayMeal;
         private readonly List<Dish> todayDishesList = new List<Dish>();
 
-        public ViewModel(bool isClicked = false)
-        {
-            if (isClicked)
-                SendRequestToRefresh();
-            DeserealizeJson(this);
-        }
         public ViewModel()
         {
             if (!Parser.CheckOrCreateDirectory())
@@ -34,11 +26,12 @@ namespace CaloryCalculator
         {
             get
             {
-                return buttonRefresh ??
-                    (buttonRefresh = new RelayCommand(obj =>
-                    {
-                        ViewModel vm = new ViewModel(true);
-                    }));
+            return buttonRefresh ??
+                (buttonRefresh = new RelayCommand(obj =>
+                {
+                    SendRequestToRefresh();
+                    DeserealizeJson(this);
+                }));
             }
         }
 
@@ -47,7 +40,8 @@ namespace CaloryCalculator
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
-        
+
+        private List<string> names;
         public List<string> DishesList
         {
             get => names;
@@ -61,6 +55,7 @@ namespace CaloryCalculator
             set => OnPropertyChanged(nameof(DishInfo));
         }
 
+        private List<string> todayMeal;
         public List<string> TodayMeal
         {
             get => todayMeal;
@@ -98,13 +93,13 @@ namespace CaloryCalculator
             using (FileStream fs = new FileStream(@"C:\Users\Public\Calorizzation\dishes.json", FileMode.Open))
             {
                 vm.Dishes = (List<Dish>)jsonFormatter.ReadObject(fs);
-                vm.DishesList = vm.names;
             }
-
+            vm.names = new List<string>();
             foreach (var dish in vm.Dishes)
             {
                 vm.names.Add(dish.Name);
             }
+            vm.DishesList = vm.names;
         }
     }
 }
