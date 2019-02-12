@@ -141,5 +141,19 @@ namespace CaloryCalculator
 
             return $"{newCurrDishName}\n-----------\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
         }
+
+
+        /// <summary>
+        /// Вычисление суммы калорий
+        /// </summary>
+        internal static string CalculateSum(List<Dish> todayDishesList)
+        {
+            double sum = 0;
+            foreach (var dish in todayDishesList)
+            {
+                sum += dish.Quantity*dish.Calories/100;
+            }
+            return $"{sum} ккал";
+        }
     }
 }

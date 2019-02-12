@@ -48,6 +48,13 @@ namespace CaloryCalculator
             set => OnPropertyChanged(nameof(DishesList));
         }
 
+        private string caloriesSum = "0 ккал";
+        public string CaloriesSum
+        {
+            get => caloriesSum;
+            set => OnPropertyChanged(nameof(CaloriesSum));
+        }
+
         private string dishInfo;
         public string DishInfo
         {
@@ -74,6 +81,7 @@ namespace CaloryCalculator
                 dishQuantity.ShowDialog();
                 
                 TodayMeal = todayMeal = Parser.CreateDishesList(currDish, DishQuantity, todayDishesList);
+                CaloriesSum = caloriesSum = Parser.CalculateSum(todayDishesList);
 
                 DishQuantity = null;
             }
