@@ -15,34 +15,30 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="87,47,232,150"/>
+            Margin="88,44,231,153"/>
         <TextBlock 
             Height="30"
-            Width="150" 
-            Text="Рост "
+            Width="150"
             FontFamily="Courier New"
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="87,83,232,114"/>
+            Margin="88,80,231,117"><Run Text="Рост"/><Run Text=", см"/><Run Text=" "/></TextBlock>
         <TextBlock 
             Height="30"
-            Width="150" 
-            Text="Вес "
+            Width="150"
             FontFamily="Courier New"
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="87,118,232,79"/>
+            Margin="88,115,231,82"><Run Text="Вес"/><Run Text=", кг"/><Run Text=" "/></TextBlock>
         <TextBlock 
             Height="30"
-            Width="150" 
-            Text="Возраст "
             FontFamily="Courier New"
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="87,153,232,44"/>
+            Margin="88,150,231,47" Text="Возраст "/>
         <TextBox
             Height="30"
             Width="150" 
@@ -50,7 +46,7 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="242,47,77,150"/>
+            Margin="243,44,76,153"/>
         <TextBox
             Height="30"
             Width="150" 
@@ -58,7 +54,7 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="242,82,77,115"/>
+            Margin="243,79,76,118"/>
         <TextBox
             Height="30"
             Width="150" 
@@ -66,7 +62,7 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="242,117,77,80"/>
+            Margin="243,114,76,83"/>
         <TextBox
             Height="30"
             Width="150" 
@@ -74,6 +70,6 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="242,152,77,45"/>
+            Margin="243,149,76,48"/>
     </Grid>
 </Window>
