@@ -6,17 +6,18 @@
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         xmlns:local="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
-        Title="Ну, и сколько ты сожрал(а)?" Height="120" Width="300" ResizeMode="NoResize" >
-        <Window.DataContext>
-            <viewmodel:ViewModel/>
-        </Window.DataContext>
+        Title="Ну, и сколько ты сожрал(а)?" Height="93" Width="300" ResizeMode="NoResize" >
+    <Window.DataContext>
+        <viewmodel:ViewModel/>
+    </Window.DataContext>
     <Grid>
         <TextBox
-            Height="25"
-            Width="150"
-            Margin="72,14,72,52"
+            Height="24"
+            Margin="92,13,92,0"
             FontFamily="Courier New"
+            FontSize="20"
+            FontWeight="Bold"
             TextAlignment="Center"
-            Text="{Binding DishQuantity}"/>
+            Text="{Binding DishQuantity}" VerticalAlignment="Top"/>
     </Grid>
 </Window>

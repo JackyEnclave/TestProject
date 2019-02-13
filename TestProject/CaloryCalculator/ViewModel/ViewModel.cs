@@ -12,15 +12,21 @@ namespace CaloryCalculator
     delegate string stringCreator (Dish currDish);
     class ViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private List<Dish> _dishes = new List<Dish>();
+        private List<Dish> _allDishesList = new List<Dish>();
         private List<Dish> _todayDishesList = new List<Dish>();
 
         public ViewModel()
         {
             if (!Parser.CheckOrCreateDirectory())
                 SendRequestToRefresh();
-            DishesList = _names = DeserealizeJson("dishes", Parser.returnCleanString, ref _dishes);
-            TodayMeal = _todayMeal = DeserealizeJson("todaydishes", Parser.returnStringWithInfo, ref _todayDishesList);
+
+            //десериализуем данные из джейсонов
+            AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.ALLDISHESPATH, Dish.returnCleanString, ref _allDishesList);
+            TodayMeal = _todayMeal = Parser.DeserealizeJson(Dish.TODAYDISHESPATH, Dish.returnStringWithInfo, ref _todayDishesList);
+            
+            //выводим корректную начальную сумму калорий
+            double sum = 0;
+            _todayDishesList.ForEach(x => CaloriesSum = _caloriesSum = $"{sum += x.Calories * x.Quantity / 100} ккал");
         }
 
         private RelayCommand _buttonRefresh;
@@ -32,7 +38,7 @@ namespace CaloryCalculator
                 (_buttonRefresh = new RelayCommand(obj =>
                 {
                     SendRequestToRefresh();
-                    DishesList = _names = DeserealizeJson("dishes", Parser.returnCleanString, ref _dishes);
+                    AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.ALLDISHESPATH, Dish.returnCleanString, ref _allDishesList);
                 }));
             }
         }
@@ -43,14 +49,14 @@ namespace CaloryCalculator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private List<string> _names;
-        public List<string> DishesList
+        private List<string> _allDishesNames;
+        public List<string> AllDishesNames
         {
-            get => _names;
-            set => OnPropertyChanged(nameof(DishesList));
+            get => _allDishesNames;
+            set => OnPropertyChanged(nameof(AllDishesNames));
         }
 
-        private string _caloriesSum = "0 ккал";
+        private string _caloriesSum;
         public string CaloriesSum
         {
             get => _caloriesSum;
@@ -76,7 +82,7 @@ namespace CaloryCalculator
         {
             set
             {
-                Dish currDish = _dishes.FirstOrDefault(x => x.Name == value);
+                Dish currDish = _allDishesList.FirstOrDefault(x => x.Name == value);
                 DishInfo = _dishInfo = Parser.CreateDishInfo(currDish);
 
                 View.DishQuantity dishQuantity = new View.DishQuantity();
@@ -90,27 +96,16 @@ namespace CaloryCalculator
             }
         }
 
+
+        /// <summary>
+        /// Отсылка запроса на обновление листа продуктов
+        /// </summary>
         private static void SendRequestToRefresh()
         {
             View.Refresh refresh = new View.Refresh();
             refresh.Show();
             Parser.ParseData();
             refresh.Close();
-        }
-
-        private static List<string> DeserealizeJson(string fileName, stringCreator function, ref List<Dish> targetDishesList)
-        {
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
-            using (FileStream fs = new FileStream($@"C:\Users\Public\Calorizzation\{fileName}.json", FileMode.Open))
-            {
-                targetDishesList = (List<Dish>)jsonFormatter.ReadObject(fs);
-            }
-            List<string> names = new List<string>();
-            foreach (var dish in targetDishesList)
-            {
-                names.Add(function?.Invoke(dish));
-            }
-            return names;
         }
     }
 }

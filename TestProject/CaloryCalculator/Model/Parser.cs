@@ -110,7 +110,7 @@ namespace CaloryCalculator
 
             var todayMeal = new List<string>();
             foreach (var dish in todayDishesList)
-                todayMeal.Add(returnStringWithInfo(dish));
+                todayMeal.Add(Dish.returnStringWithInfo(dish));
             return todayMeal;
         }
 
@@ -151,6 +151,26 @@ namespace CaloryCalculator
             return $"{sum} ккал";
         }
 
+        /// <summary>
+        /// Десериализация джейсона и создание листа продуктов
+        /// </summary>
+        internal static List<string> DeserealizeJson(string path, stringCreator function, ref List<Dish> targetDishesList)
+        {
+            List<string> names = new List<string>();
+            if (!File.Exists(path) || File.ReadAllText(path).Length == 0) return null;
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+            {
+                targetDishesList = (List<Dish>)jsonFormatter.ReadObject(fs);
+            }
+            foreach (var dish in targetDishesList)
+            {
+                names.Add(function?.Invoke(dish));
+            }
+            return names;
+        }
+
+
         internal static void SerializeToJson(string fileName, List<Dish> dishes)
         {
             File.Delete($@"C:\Users\Public\Calorizzation\{fileName}.json");
@@ -160,10 +180,5 @@ namespace CaloryCalculator
                 contractJsonSerializer.WriteObject(_fs, dishes); //запись в json
             }
         }
-
-        internal static string returnCleanString(Dish currDish) => currDish.Name;
-
-        internal static string returnStringWithInfo(Dish currDish) =>
-            $"{currDish.Name} ({currDish.Quantity} гр./{currDish.Calories * currDish.Quantity / 100} ккал)";
     }
 }
