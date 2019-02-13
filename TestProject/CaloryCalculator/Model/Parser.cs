@@ -156,8 +156,8 @@ namespace CaloryCalculator
         /// </summary>
         internal static List<string> DeserealizeJson(string path, stringCreator function, ref List<Dish> targetDishesList)
         {
-            List<string> names = new List<string>();
             if (!File.Exists(path) || File.ReadAllText(path).Length == 0) return null;
+            List<string> names = new List<string>();
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
             using (FileStream fs = new FileStream(path, FileMode.Open))
             {
@@ -168,6 +168,15 @@ namespace CaloryCalculator
                 names.Add(function?.Invoke(dish));
             }
             return names;
+        }
+
+
+        internal static Acc DeserealizeJson(string path, ref Acc account)
+        {
+            if (!File.Exists(path) || File.ReadAllText(path).Length == 0) return null;
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+                return (Acc)jsonFormatter.ReadObject(fs);
         }
 
 

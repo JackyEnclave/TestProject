@@ -23,7 +23,14 @@ namespace CaloryCalculator
             //десериализуем данные из джейсонов
             AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.ALLDISHESPATH, Dish.returnCleanString, ref _allDishesList);
             TodayMeal = _todayMeal = Parser.DeserealizeJson(Dish.TODAYDISHESPATH, Dish.returnStringWithInfo, ref _todayDishesList);
-            
+            Account = _account = Parser.DeserealizeJson(Acc.ACCPATH, ref _account);
+
+            if (!File.Exists(Acc.ACCPATH) || File.ReadAllText(Acc.ACCPATH).Length == 0)
+            {
+                View.UserParams userParams = new View.UserParams();
+                userParams.ShowDialog();
+            }
+
             //выводим корректную начальную сумму калорий
             double sum = 0;
             _todayDishesList.ForEach(x => CaloriesSum = _caloriesSum = $"{sum += x.Calories * x.Quantity / 100} ккал");
@@ -54,6 +61,13 @@ namespace CaloryCalculator
         {
             get => _allDishesNames;
             set => OnPropertyChanged(nameof(AllDishesNames));
+        }
+
+        private Acc _account;
+        public Acc Account
+        {
+            get => _account;
+            set => OnPropertyChanged(nameof(Account));
         }
 
         private string _caloriesSum;
