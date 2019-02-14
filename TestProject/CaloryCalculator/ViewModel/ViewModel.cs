@@ -33,6 +33,8 @@ namespace CaloryCalculator
                 Parser.SerializeToJson("acc", _account);
             }
 
+            UserInfo = $"{_account.Name}\nРост: {_account.Height} см\nВес: {_account.Weight} кг\nВозраст: {_account.Age} лет";
+
             //выводим корректную начальную сумму калорий
             double sum = 0;
             _todayDishesList.ForEach(x => CaloriesSum = _caloriesSum = $"{sum += x.Calories * x.Quantity / 100} ккал");
@@ -86,6 +88,7 @@ namespace CaloryCalculator
             set => OnPropertyChanged(nameof(TodayMeal));
         }
         public static double? DishQuantity { get; set; }
+        public static string UserInfo { get; set; }
 
         public string SelectedObject
         {
