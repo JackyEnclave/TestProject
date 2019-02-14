@@ -40,6 +40,7 @@ namespace CaloryCalculator
             _todayDishesList.ForEach(x => CaloriesSum = _caloriesSum = $"{sum += x.Calories * x.Quantity / 100} ккал");
         }
 
+        #region Свойства
         private RelayCommand _buttonRefresh;
         public RelayCommand RefreshButtonClick
         {
@@ -107,7 +108,7 @@ namespace CaloryCalculator
                 DishQuantity = null;
             }
         }
-
+        #endregion
 
         /// <summary>
         /// Отсылка запроса на обновление листа продуктов
