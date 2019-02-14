@@ -33,11 +33,16 @@ namespace CaloryCalculator
                 Parser.SerializeToJson("acc", _account);
             }
 
+            //информация о пользователе
             UserInfo = Calculator.CreateUserInformation(_account);
 
-            //выводим корректную начальную сумму калорий
-            double sum = 0;
-            _todayDishesList.ForEach(x => CaloriesSum = _caloriesSum = $"{sum += x.Calories * x.Quantity / 100} ккал");
+            //выводим корректную начальную сумму калорий, белков, жиров и углеводов
+            double protsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnProts);
+            double fatsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnFats);
+            double carbsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCarbs);
+            double caloriesSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCalories);
+            CaloriesSum = _caloriesSum = $"{caloriesSum} ккал";
+            ProtsFatsCarbsSums = _protsFatsCarbsSums = $"БЖУ: {(int)protsSum}/{(int)fatsSum}/{(int)carbsSum}";
         }
 
         #region Свойства
@@ -75,11 +80,11 @@ namespace CaloryCalculator
             set => OnPropertyChanged(nameof(CaloriesSum));
         }
 
-        private string _protsFatsCarbsSum;
-        public string ProtsFatsCarbsSum
+        private string _protsFatsCarbsSums;
+        public string ProtsFatsCarbsSums
         {
-            get => _protsFatsCarbsSum;
-            set => OnPropertyChanged(nameof(ProtsFatsCarbsSum));
+            get => _protsFatsCarbsSums;
+            set => OnPropertyChanged(nameof(ProtsFatsCarbsSums));
         }
 
         private string _dishInfo;
@@ -109,7 +114,8 @@ namespace CaloryCalculator
                 dishQuantity.ShowDialog();
                 
                 TodayMeal = _todayMeal = Parser.CreateDishesList(currDish, DishQuantity, _todayDishesList);
-                CaloriesSum = _caloriesSum = Parser.CalculateSum(_todayDishesList);
+                CaloriesSum = _caloriesSum = $"{Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCalories)} ккал";
+
                 Parser.SerializeToJson("todaydishes", _todayDishesList);
 
                 DishQuantity = null;

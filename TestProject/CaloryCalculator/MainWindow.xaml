@@ -65,19 +65,20 @@
                 HorizontalAlignment="Left"/>
         <TextBlock 
                    Width="400" 
-                   Margin="515,441,79,81" 
+                   Margin="515,432,79,90" 
                    TextAlignment="Center"
                    Text="{Binding CaloriesSum}"
                    FontFamily="Courier New"
                    FontWeight = "Bold"
                    FontSize="30"/>
         <TextBlock 
-            Width="400" 
-            Margin="515,490,79,32" 
-            TextAlignment="Center"
-            Text="{Binding ProtsFatsCarbsSum}"
-            FontFamily="Courier New"
-            FontWeight = "Bold"
-            FontSize="25"/>
+                    Width="400" 
+                    Margin="515,480,79,63" 
+                    TextAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding ProtsFatsCarbsSums}"
+                    FontFamily="Courier New"
+                    FontWeight = "Bold"
+                    FontSize="25"/>
     </Grid>
 </Window>

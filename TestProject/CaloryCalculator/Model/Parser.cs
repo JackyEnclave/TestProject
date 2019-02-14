@@ -136,19 +136,6 @@ namespace CaloryCalculator
 
 
         /// <summary>
-        /// Вычисление суммы калорий
-        /// </summary>
-        internal static string CalculateSum(List<Dish> todayDishesList)
-        {
-            double sum = 0;
-            foreach (var dish in todayDishesList)
-            {
-                sum += dish.Quantity*dish.Calories/100;
-            }
-            return $"{sum} ккал";
-        }
-
-        /// <summary>
         /// Десериализация джейсона и создание листа продуктов
         /// </summary>
         internal static List<string> DeserealizeJson(string path, stringCreator function, ref List<Dish> targetDishesList)
