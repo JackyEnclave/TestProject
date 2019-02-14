@@ -81,16 +81,12 @@ namespace CaloryCalculator
         }
 
         /// <summary>
-        /// Проверка наличия директории и json
+        /// Проверка наличия json
         /// </summary>
-        internal static bool CheckOrCreateDirectory()
+        internal static bool CheckOrCreateJson()
         {
-            if (!Directory.Exists(@"C:\Users\Public\Calorizzation"))
-                Directory.CreateDirectory(@"C:\Users\Public\Calorizzation");
-
-            FileInfo fi = new FileInfo(@"C:\Users\Public\Calorizzation\dishes.json");
-
-            return fi.Exists && fi.Length != 0;
+            string path = $@"{Directory.GetCurrentDirectory()}\dishes.json";
+            return File.Exists(path) && File.ReadAllText(path).Length != 0;
         }
 
         /// <summary>
@@ -182,8 +178,8 @@ namespace CaloryCalculator
 
         internal static void SerializeToJson(string fileName, List<Dish> dishes)
         {
-            File.Delete($@"C:\Users\Public\Calorizzation\{fileName}.json");
-            using (FileStream _fs = new FileStream($@"C:\Users\Public\Calorizzation\{fileName}.json", FileMode.OpenOrCreate))
+            File.Delete($@"{Directory.GetCurrentDirectory()}\{fileName}.json");
+            using (FileStream _fs = new FileStream($@"{Directory.GetCurrentDirectory()}\{fileName}.json", FileMode.OpenOrCreate))
             {
                 DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
                 contractJsonSerializer.WriteObject(_fs, dishes); //запись в json

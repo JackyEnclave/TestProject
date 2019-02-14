@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,6 @@ namespace CaloryCalculator
         public int Weight { get => _weight; set => _weight = value; }
         public int Height { get => _height; set => _height = value; }
 
-        public const string ACCPATH = @"C:\Users\Public\Calorizzation\acc.json";
+        public static readonly string AccPath = $@"{Directory.GetCurrentDirectory()}\acc.json";
     }
 }

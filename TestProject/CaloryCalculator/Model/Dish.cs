@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -23,8 +24,8 @@ namespace CaloryCalculator
         public double Calories { get => _calories; set => _calories = value; }
         public double Quantity { get => _quantity; set => _quantity = value; }
 
-        public const string ALLDISHESPATH = @"C:\Users\Public\Calorizzation\dishes.json";
-        public const string TODAYDISHESPATH = @"C:\Users\Public\Calorizzation\todaydishes.json";
+        public static readonly string allDishesList = $@"{Directory.GetCurrentDirectory()}\dishes.json";
+        public static readonly string todayDishesPath = $@"{Directory.GetCurrentDirectory()}\todaydishes.json";
 
         internal static string returnCleanString(Dish currDish) => currDish.Name;
 

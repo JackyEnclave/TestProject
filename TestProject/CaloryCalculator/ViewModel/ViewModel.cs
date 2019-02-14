@@ -17,15 +17,15 @@ namespace CaloryCalculator
 
         public ViewModel()
         {
-            if (!Parser.CheckOrCreateDirectory())
+            if (!Parser.CheckOrCreateJson())
                 SendRequestToRefresh();
 
             //десериализуем данные из джейсонов
-            AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.ALLDISHESPATH, Dish.returnCleanString, ref _allDishesList);
-            TodayMeal = _todayMeal = Parser.DeserealizeJson(Dish.TODAYDISHESPATH, Dish.returnStringWithInfo, ref _todayDishesList);
-            Account = _account = Parser.DeserealizeJson(Acc.ACCPATH, ref _account);
+            AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
+            TodayMeal = _todayMeal = Parser.DeserealizeJson(Dish.todayDishesPath, Dish.returnStringWithInfo, ref _todayDishesList);
+            Account = _account = Parser.DeserealizeJson(Acc.AccPath, ref _account);
 
-            if (!File.Exists(Acc.ACCPATH) || File.ReadAllText(Acc.ACCPATH).Length == 0)
+            if (!File.Exists(Acc.AccPath) || File.ReadAllText(Acc.AccPath).Length == 0)
             {
                 View.UserParams userParams = new View.UserParams();
                 userParams.ShowDialog();
@@ -45,7 +45,7 @@ namespace CaloryCalculator
                 (_buttonRefresh = new RelayCommand(obj =>
                 {
                     SendRequestToRefresh();
-                    AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.ALLDISHESPATH, Dish.returnCleanString, ref _allDishesList);
+                    AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
                 }));
             }
         }
