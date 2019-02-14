@@ -33,7 +33,7 @@ namespace CaloryCalculator
                 Parser.SerializeToJson("acc", _account);
             }
 
-            UserInfo = $"{_account.Name}\nРост: {_account.Height} см\nВес: {_account.Weight} кг\nВозраст: {_account.Age} лет";
+            UserInfo = Calculator.CreateUserInformation(_account);
 
             //выводим корректную начальную сумму калорий
             double sum = 0;

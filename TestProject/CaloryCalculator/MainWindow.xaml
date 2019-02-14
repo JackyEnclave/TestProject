@@ -44,11 +44,13 @@
                  RenderTransformOrigin="1.118,0.505" 
                  Margin="515,237,79,135"/>
         <TextBlock 
-                Margin="10,10,834,483"
+                Margin="82,23,512,478"
                 FontFamily="Courier New"
                 FontWeight = "Bold"
+                FontSize="20"
                 TextAlignment="Center"
-                Text="{Binding UserInfo}"/>
+                VerticalAlignment="Center"
+                Text="{Binding UserInfo}" Height="70"/>
         <ListBox Width="400"
                 Height="200"
                 BorderBrush="Transparent"

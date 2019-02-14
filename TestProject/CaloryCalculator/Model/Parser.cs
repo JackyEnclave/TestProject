@@ -10,6 +10,7 @@ using System.Threading;
 
 namespace CaloryCalculator
 {
+    //TODO: вынести методы, не относящиеся к парсингу, в отдельный класс
     class Parser
     {
         public static void ParseData()
@@ -176,16 +177,17 @@ namespace CaloryCalculator
         }
 
 
+        /// <summary>
+        /// Сериализация в джейсон
+        /// </summary>>
         internal static void SerializeToJson(string fileName, dynamic serializableObj)
         {
+            if (serializableObj == null) return;
             File.Delete($@"{Directory.GetCurrentDirectory()}\{fileName}.json");
             using (FileStream _fs = new FileStream($@"{Directory.GetCurrentDirectory()}\{fileName}.json", FileMode.OpenOrCreate))
-            {
-                if (serializableObj != null)
-                {
-                    DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(serializableObj.GetType());
-                    contractJsonSerializer.WriteObject(_fs, serializableObj); //запись в json
-                }
+            { 
+                DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(serializableObj.GetType());
+                contractJsonSerializer.WriteObject(_fs, serializableObj); //запись в json
             }
         }
     }
