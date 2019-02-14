@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using DevExpress.Mvvm;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
@@ -10,10 +9,11 @@ using System.Windows.Input;
 namespace CaloryCalculator
 {
     delegate string stringCreator (Dish currDish);
-    class ViewModel : ViewModelBase, INotifyPropertyChanged
+    class ViewModel : INotifyPropertyChanged
     {
         private List<Dish> _allDishesList = new List<Dish>();
         private List<Dish> _todayDishesList = new List<Dish>();
+        private Acc _account;
 
         public ViewModel()
         {
@@ -23,12 +23,14 @@ namespace CaloryCalculator
             //десериализуем данные из джейсонов
             AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
             TodayMeal = _todayMeal = Parser.DeserealizeJson(Dish.todayDishesPath, Dish.returnStringWithInfo, ref _todayDishesList);
-            Account = _account = Parser.DeserealizeJson(Acc.AccPath, ref _account);
+            _account = Parser.DeserealizeJson(Acc.AccPath, ref _account);
 
             if (!File.Exists(Acc.AccPath) || File.ReadAllText(Acc.AccPath).Length == 0)
             {
                 View.UserParams userParams = new View.UserParams();
                 userParams.ShowDialog();
+                _account = ViewModelUsersParameters.Acc;
+                Parser.SerializeToJson("acc", _account);
             }
 
             //выводим корректную начальную сумму калорий
@@ -61,13 +63,6 @@ namespace CaloryCalculator
         {
             get => _allDishesNames;
             set => OnPropertyChanged(nameof(AllDishesNames));
-        }
-
-        private Acc _account;
-        public Acc Account
-        {
-            get => _account;
-            set => OnPropertyChanged(nameof(Account));
         }
 
         private string _caloriesSum;

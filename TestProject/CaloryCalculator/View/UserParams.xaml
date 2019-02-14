@@ -3,10 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CaloryCalculator.View"
+        xmlns:local="clr-namespace:CaloryCalculator"
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
         Title="Кто здесь самый жирный дрыщ?" Height="258.088" Width="477.059">
+    <Window.DataContext>
+        <viewmodel:ViewModelUsersParameters/>
+    </Window.DataContext>
     <Grid>
         <TextBlock 
             Height="30"
@@ -47,7 +50,8 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,44,76,153"/>
+            Margin="243,44,76,153"
+            Text="{Binding Acc.Name}"/>
         <TextBox
             Height="30"
             Width="150" 
@@ -55,7 +59,8 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,79,76,118"/>
+            Margin="243,79,76,118"
+            Text="{Binding Acc.Height}"/>
         <TextBox
             Height="30"
             Width="150" 
@@ -63,7 +68,8 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,114,76,83"/>
+            Margin="243,114,76,83"
+            Text="{Binding Acc.Weight}"/>
         <TextBox
             Height="30"
             Width="150" 
@@ -71,6 +77,7 @@
             FontSize="25"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,149,76,48"/>
+            Margin="243,149,76,48"
+            Text="{Binding Acc.Age}"/>
     </Grid>
 </Window>

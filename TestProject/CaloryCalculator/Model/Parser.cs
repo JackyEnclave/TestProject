@@ -170,19 +170,22 @@ namespace CaloryCalculator
         internal static Acc DeserealizeJson(string path, ref Acc account)
         {
             if (!File.Exists(path) || File.ReadAllText(path).Length == 0) return null;
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Dish>));
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Acc));
             using (FileStream fs = new FileStream(path, FileMode.Open))
                 return (Acc)jsonFormatter.ReadObject(fs);
         }
 
 
-        internal static void SerializeToJson(string fileName, List<Dish> dishes)
+        internal static void SerializeToJson(string fileName, dynamic serializableObj)
         {
             File.Delete($@"{Directory.GetCurrentDirectory()}\{fileName}.json");
             using (FileStream _fs = new FileStream($@"{Directory.GetCurrentDirectory()}\{fileName}.json", FileMode.OpenOrCreate))
             {
-                DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(typeof(List<Dish>));
-                contractJsonSerializer.WriteObject(_fs, dishes); //запись в json
+                if (serializableObj != null)
+                {
+                    DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(serializableObj.GetType());
+                    contractJsonSerializer.WriteObject(_fs, serializableObj); //запись в json
+                }
             }
         }
     }
