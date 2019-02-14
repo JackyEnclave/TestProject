@@ -75,6 +75,13 @@ namespace CaloryCalculator
             set => OnPropertyChanged(nameof(CaloriesSum));
         }
 
+        private string _protsFatsCarbsSum;
+        public string ProtsFatsCarbsSum
+        {
+            get => _protsFatsCarbsSum;
+            set => OnPropertyChanged(nameof(ProtsFatsCarbsSum));
+        }
+
         private string _dishInfo;
         public string DishInfo
         {
