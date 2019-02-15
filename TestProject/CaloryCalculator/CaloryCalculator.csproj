@@ -88,6 +88,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\RelayCommand.cs" />
+    <Compile Include="Model\Utils.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="ViewModel\ViewModelUsersParameters.cs" />
     <Compile Include="View\DishQuantity.xaml.cs">

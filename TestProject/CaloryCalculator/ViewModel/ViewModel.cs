@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Json;
 using System.Windows;
 using System.Linq;
 using System.Windows.Input;
@@ -17,20 +16,20 @@ namespace CaloryCalculator
 
         public ViewModel()
         {
-            if (!Parser.CheckOrCreateJson())
+            if (!Utils.CheckOrCreateJson())
                 SendRequestToRefresh();
 
             //десериализуем данные из джейсонов
-            AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
-            TodayMeal = _todayMeal = Parser.DeserealizeJson(Dish.todayDishesPath, Dish.returnStringWithInfo, ref _todayDishesList);
-            _account = Parser.DeserealizeJson(Acc.AccPath, ref _account);
+            AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
+            TodayMeal = _todayMeal = Utils.DeserealizeJson(Dish.todayDishesPath, Dish.returnStringWithInfo, ref _todayDishesList);
+            _account = Utils.DeserealizeJson(Acc.AccPath, ref _account);
 
             if (!File.Exists(Acc.AccPath) || File.ReadAllText(Acc.AccPath).Length == 0)
             {
                 View.UserParams userParams = new View.UserParams();
                 userParams.ShowDialog();
                 _account = ViewModelUsersParameters.Acc;
-                Parser.SerializeToJson("acc", _account);
+                Utils.SerializeToJson("acc", _account);
             }
 
             //информация о пользователе
@@ -55,7 +54,7 @@ namespace CaloryCalculator
                 (_buttonRefresh = new RelayCommand(obj =>
                 {
                     SendRequestToRefresh();
-                    AllDishesNames = _allDishesNames = Parser.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
+                    AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
                 }));
             }
         }
@@ -108,15 +107,15 @@ namespace CaloryCalculator
             set
             {
                 Dish currDish = _allDishesList.FirstOrDefault(x => x.Name == value);
-                DishInfo = _dishInfo = Parser.CreateDishInfo(currDish);
+                DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
 
                 View.DishQuantity dishQuantity = new View.DishQuantity();
                 dishQuantity.ShowDialog();
                 
-                TodayMeal = _todayMeal = Parser.CreateDishesList(currDish, DishQuantity, _todayDishesList);
+                TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
                 CaloriesSum = _caloriesSum = $"{Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCalories)} ккал";
 
-                Parser.SerializeToJson("todaydishes", _todayDishesList);
+                Utils.SerializeToJson("todaydishes", _todayDishesList);
 
                 DishQuantity = null;
             }
