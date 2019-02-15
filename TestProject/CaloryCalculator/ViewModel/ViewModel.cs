@@ -26,9 +26,13 @@ namespace CaloryCalculator
 
             if (!File.Exists(Acc.AccPath) || File.ReadAllText(Acc.AccPath).Length == 0)
             {
-                View.UserParams userParams = new View.UserParams();
-                userParams.ShowDialog();
-                _account = ViewModelUsersParameters.Acc;
+                while (!Utils.CheckInputData(_account))
+                {
+                    MessageBox.Show("Нужно корректно заполнить поля. Буковки в поле 'Имя', циферки в поля 'Рост', 'Вес' и 'Возраст'", "Кто ты?", MessageBoxButton.OK, MessageBoxImage.Information);
+                    View.UserParams userParams = new View.UserParams();
+                    userParams.ShowDialog();
+                    _account = ViewModelUsersParameters.Acc;
+                }
                 Utils.SerializeToJson("acc", _account);
             }
 

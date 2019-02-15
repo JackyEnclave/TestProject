@@ -19,7 +19,7 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="88,39,231,158"/>
+            Margin="88,11,231,186"/>
         <TextBlock 
             Height="30"
             Width="150"
@@ -27,7 +27,7 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="88,75,231,122"><Run Text="Рост"/><Run Text=", см"/><Run Text=" "/></TextBlock>
+            Margin="88,47,231,150"><Run Text="Рост"/><Run Text=", см"/><Run Text=" "/></TextBlock>
         <TextBlock 
             Height="30"
             Width="150"
@@ -35,14 +35,14 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="88,110,231,87"><Run Text="Вес"/><Run Text=", кг"/><Run Text=" "/></TextBlock>
+            Margin="88,82,231,115"><Run Text="Вес"/><Run Text=", кг"/><Run Text=" "/></TextBlock>
         <TextBlock 
             Height="30"
             FontFamily="Courier New"
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="88,145,231,52" Text="Возраст "/>
+            Margin="88,117,231,80" Text="Возраст "/>
         <TextBox
             Height="30"
             Width="150" 
@@ -50,7 +50,7 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,39,76,158"
+            Margin="243,11,76,186"
             Text="{Binding Acc.Name}"/>
         <TextBox
             Height="30"
@@ -59,7 +59,7 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,74,76,123"
+            Margin="243,46,76,151"
             Text="{Binding Acc.Height}"/>
         <TextBox
             Height="30"
@@ -68,7 +68,7 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,109,76,88"
+            Margin="243,81,76,116"
             Text="{Binding Acc.Weight}"/>
         <TextBox
             Height="30"
@@ -77,7 +77,28 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Left"
-            Margin="243,144,76,53"
+            Margin="243,116,76,81"
             Text="{Binding Acc.Age}"/>
+        <TextBlock 
+            Height="30"
+            FontFamily="Courier New"
+            FontSize="22"
+            FontWeight="Bold"
+            TextAlignment="Right"
+            Margin="88,152,231,45" Text="Пол "/>
+        <ComboBox
+            FontFamily="Courier New"
+            FontSize="22" HorizontalAlignment="Left" Margin="243,151,0,45" Width="150">
+        </ComboBox>
+        <TextBlock 
+            Height="30"
+            FontFamily="Courier New"
+            FontSize="22"
+            FontWeight="Bold"
+            TextAlignment="Right"
+            Margin="88,186,231,11" Text=" Цель "/>
+        <ComboBox
+            FontFamily="Courier New"
+            FontSize="22" HorizontalAlignment="Left" Margin="243,187,0,9" Width="150"/>
     </Grid>
 </Window>

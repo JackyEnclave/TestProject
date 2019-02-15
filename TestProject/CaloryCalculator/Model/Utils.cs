@@ -97,7 +97,7 @@ namespace CaloryCalculator
 
         /// <summary>
         /// Сериализация в джейсон
-        /// </summary>>
+        /// </summary>
         internal static void SerializeToJson(string fileName, dynamic serializableObj)
         {
             if (serializableObj == null) return;
@@ -107,6 +107,16 @@ namespace CaloryCalculator
                 DataContractJsonSerializer contractJsonSerializer = new DataContractJsonSerializer(serializableObj.GetType());
                 contractJsonSerializer.WriteObject(_fs, serializableObj); //запись в json
             }
+        }
+
+
+        /// <summary>
+        /// Проверка валидности введенных данных для аккаунта
+        /// </summary>
+        internal static bool CheckInputData(Acc acc)
+        {
+            if (acc == null) return false;
+            return (!string.IsNullOrEmpty(acc.Name) && acc.Height.HasValue && acc.Weight.HasValue && acc.Age.HasValue);
         }
     }
 }
