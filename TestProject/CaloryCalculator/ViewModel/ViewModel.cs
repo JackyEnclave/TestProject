@@ -36,6 +36,23 @@ namespace CaloryCalculator
             UserInfo = Calculator.CreateUserInformation(_account);
 
             //выводим корректную начальную сумму калорий, белков, жиров и углеводов
+            RefreshInfo();
+        }
+
+
+        /// <summary>
+        /// Отсылка запроса на обновление листа продуктов
+        /// </summary>
+        private void SendRequestToRefresh()
+        {
+            View.Refresh refresh = new View.Refresh();
+            refresh.Show();
+            Parser.ParseData();
+            refresh.Close();
+        }
+
+        private void RefreshInfo()
+        {
             double protsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnProts);
             double fatsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnFats);
             double carbsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCarbs);
@@ -57,6 +74,22 @@ namespace CaloryCalculator
                     SendRequestToRefresh();
                     AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
                 }));
+            }
+        }
+
+        private RelayCommand _buttonClean;
+        public RelayCommand CleanButtonClick
+        {
+            get
+            {
+                return _buttonClean ??
+                    (_buttonClean = new RelayCommand(obj =>
+                    {
+                        TodayMeal = _todayMeal = new List<string>();
+                        _todayDishesList = new List<Dish>();
+                        RefreshInfo();
+                        File.Delete(Dish.todayDishesPath);
+                    }));
             }
         }
 
@@ -114,7 +147,7 @@ namespace CaloryCalculator
                 dishQuantity.ShowDialog();
                 
                 TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
-                CaloriesSum = _caloriesSum = $"{Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCalories)} ккал";
+                RefreshInfo();
 
                 Utils.SerializeToJson("todaydishes", _todayDishesList);
 
@@ -122,17 +155,5 @@ namespace CaloryCalculator
             }
         }
         #endregion
-
-
-        /// <summary>
-        /// Отсылка запроса на обновление листа продуктов
-        /// </summary>
-        private static void SendRequestToRefresh()
-        {
-            View.Refresh refresh = new View.Refresh();
-            refresh.Show();
-            Parser.ParseData();
-            refresh.Close();
-        }
     }
 }
