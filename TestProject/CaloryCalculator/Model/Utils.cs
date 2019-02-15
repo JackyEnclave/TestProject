@@ -19,6 +19,7 @@ namespace CaloryCalculator
             return File.Exists(path) && File.ReadAllText(path).Length != 0;
         }
 
+
         /// <summary>
         /// Создание списка захомяченых продуктов
         /// </summary>
@@ -39,6 +40,7 @@ namespace CaloryCalculator
                 todayMeal.Add(Dish.returnStringWithInfo(dish));
             return todayMeal;
         }
+
 
         /// <summary>
         /// Создание информации о блюде для корректного вывода с учетом длины строки

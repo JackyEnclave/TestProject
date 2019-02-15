@@ -44,6 +44,7 @@ namespace CaloryCalculator
             ProtsFatsCarbsSums = _protsFatsCarbsSums = $"БЖУ: {(int)protsSum}/{(int)fatsSum}/{(int)carbsSum}";
         }
 
+
         #region Свойства
         private RelayCommand _buttonRefresh;
         public RelayCommand RefreshButtonClick
@@ -121,6 +122,7 @@ namespace CaloryCalculator
             }
         }
         #endregion
+
 
         /// <summary>
         /// Отсылка запроса на обновление листа продуктов

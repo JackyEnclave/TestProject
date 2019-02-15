@@ -23,12 +23,9 @@ namespace CaloryCalculator
         public double Carbohyds { get => _carbohyds; set => _carbohyds = value; }
         public double Calories { get => _calories; set => _calories = value; }
         public double Quantity { get => _quantity; set => _quantity = value; }
-
         public static readonly string allDishesList = $@"{Directory.GetCurrentDirectory()}\dishes.json";
         public static readonly string todayDishesPath = $@"{Directory.GetCurrentDirectory()}\todaydishes.json";
-
         internal static string returnCleanString(Dish currDish) => currDish.Name;
-
         internal static string returnStringWithInfo(Dish currDish) =>
             $"{currDish.Name} ({currDish.Quantity} гр./{currDish.Calories * currDish.Quantity / 100} ккал)";
     }

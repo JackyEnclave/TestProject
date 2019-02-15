@@ -19,6 +19,7 @@ namespace CaloryCalculator
         public int? Weight { get => _weight; set => _weight = value; }
         public int? Height { get => _height; set => _height = value; }
 
+
         public static readonly string AccPath = $@"{Directory.GetCurrentDirectory()}\acc.json";
     }
 }

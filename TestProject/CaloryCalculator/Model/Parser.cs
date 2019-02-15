@@ -49,11 +49,13 @@ namespace CaloryCalculator
             Utils.SerializeToJson("dishes", dishes);
         }
 
+
         /// <summary>
         /// Инкапсуляция поиска узлов
         /// </summary>
         private static HtmlNodeCollection FindHtmlNodes(HtmlDocument htmlDocument, string nodePattern) => 
             htmlDocument.DocumentNode.SelectNodes(nodePattern);
+
 
         /// <summary>
         /// Получение списка продуктов

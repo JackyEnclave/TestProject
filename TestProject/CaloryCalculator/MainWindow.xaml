@@ -34,15 +34,15 @@
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Right"/>
         <TextBlock 
-                 Width="400" 
-                 x:Name="info"
-                 Text="{Binding DishInfo}"
-                 FontFamily="Courier New"
-                 FontWeight = "Bold"
-                 FontSize="20"
-                 TextAlignment="Center"
-                 RenderTransformOrigin="1.118,0.505" 
-                 Margin="515,237,79,135"/>
+                Width="400" 
+                x:Name="info"
+                Text="{Binding DishInfo}"
+                FontFamily="Courier New"
+                FontWeight = "Bold"
+                FontSize="20"
+                TextAlignment="Center"
+                RenderTransformOrigin="1.118,0.505" 
+                Margin="515,237,79,135"/>
         <TextBlock 
                 Margin="82,23,512,478"
                 FontFamily="Courier New"
@@ -64,21 +64,21 @@
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left"/>
         <TextBlock 
-                   Width="400" 
-                   Margin="515,432,79,90" 
-                   TextAlignment="Center"
-                   Text="{Binding CaloriesSum}"
-                   FontFamily="Courier New"
-                   FontWeight = "Bold"
-                   FontSize="30"/>
+                Width="400" 
+                Margin="515,432,79,90" 
+                TextAlignment="Center"
+                Text="{Binding CaloriesSum}"
+                FontFamily="Courier New"
+                FontWeight = "Bold"
+                FontSize="30"/>
         <TextBlock 
-                    Width="400" 
-                    Margin="515,480,79,63" 
-                    TextAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="{Binding ProtsFatsCarbsSums}"
-                    FontFamily="Courier New"
-                    FontWeight = "Bold"
-                    FontSize="25"/>
+                Width="400" 
+                Margin="515,480,79,63" 
+                TextAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding ProtsFatsCarbsSums}"
+                FontFamily="Courier New"
+                FontWeight = "Bold"
+                FontSize="25"/>
     </Grid>
 </Window>
