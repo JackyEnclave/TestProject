@@ -16,6 +16,7 @@
                             BusyContent="Обновление базы данных... Подождите">
         <Grid>
         <Image Source="View/Texture.jpg" Height="600"/>
+        <Image Source="View/Logo.png" Margin="804,468,0,10"/>
         <Button 
                 Margin="82,480,762,0" 
                 Content="Обновить" 
