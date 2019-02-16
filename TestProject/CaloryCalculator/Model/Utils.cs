@@ -116,7 +116,11 @@ namespace CaloryCalculator
         internal static bool CheckInputData(Acc acc)
         {
             if (acc == null) return false;
-            return (!string.IsNullOrEmpty(acc.Name) && acc.Height.HasValue && acc.Weight.HasValue && acc.Age.HasValue);
+            bool isCorrect = !string.IsNullOrEmpty(acc.Name) && acc.Height.HasValue &&
+                             acc.Weight.HasValue && acc.Age.HasValue && acc.Gender != Acc.Genders.UNKNOWN && 
+                             acc.Target != Acc.Targets.UNKNOWN;
+            return 
+                (isCorrect);
         }
     }
 }

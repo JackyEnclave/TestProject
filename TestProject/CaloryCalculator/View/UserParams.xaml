@@ -88,7 +88,12 @@
             Margin="88,152,231,45" Text="Пол "/>
         <ComboBox
             FontFamily="Courier New"
-            FontSize="22" HorizontalAlignment="Left" Margin="243,151,0,45" Width="150">
+            FontSize="18" 
+            Margin="243,151,0,45" 
+            Width="150"
+            HorizontalAlignment="Left"
+            ItemsSource="{Binding Gens}"
+            SelectedItem="{Binding GenderComboBoxSel }">
         </ComboBox>
         <TextBlock 
             Height="30"
@@ -96,9 +101,13 @@
             FontSize="22"
             FontWeight="Bold"
             TextAlignment="Right"
-            Margin="88,186,231,11" Text=" Цель "/>
+            Margin="88,188,231,9" Text=" Цель "/>
         <ComboBox
             FontFamily="Courier New"
-            FontSize="22" HorizontalAlignment="Left" Margin="243,187,0,9" Width="150"/>
+            FontSize="18" HorizontalAlignment="Left" 
+            Margin="243,187,0,9" 
+            Width="150"
+            ItemsSource="{Binding Targets}"
+            SelectedItem="{Binding TargetComboBoxSel}"/>
     </Grid>
 </Window>
