@@ -10,8 +10,6 @@ namespace CaloryCalculator
 {
     class Parser
     {
-        //TODO 
-        //1. сделать класс обработчика для вывода информации на основании калорий и бжу
         public static void ParseData()
         {
             WebClient webClient = new WebClient {Encoding = Encoding.UTF8};
