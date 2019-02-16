@@ -16,7 +16,7 @@
                             BusyContent="Обновление базы данных... Подождите">
         <Grid>
             <Image Source="View/Texture.jpg" Height="600"/>
-            <Image Source="View/Logo.png" Margin="322,407,302,-95"/>
+            <Image Source="View/Logo.png" Margin="10,415,614,-103"/>
             <Button 
                 Margin="82,480,762,0" 
                 Content="Обновить" 
@@ -47,7 +47,7 @@
                 FontSize="20"
                 TextAlignment="Center"
                 RenderTransformOrigin="1.118,0.505" 
-                Margin="515,237,79,135"/>
+                Margin="515,184,79,188"/>
             <TextBlock 
                 Margin="82,23,512,444"
                 FontFamily="Courier New"
@@ -57,7 +57,7 @@
                 VerticalAlignment="Center"
                 Text="{Binding UserInfo}" Height="104"/>
             <ListBox Width="400"
-                Height="149"
+                Height="122"
                 BorderBrush="Transparent"
                 x:Name="todaymeal"
                 ItemsSource="{Binding TodayMeal}"
@@ -71,7 +71,7 @@
                 HorizontalAlignment="Left"/>
             <TextBlock 
                 Width="400" 
-                Margin="515,432,79,90" 
+                Margin="515,395,79,127" 
                 TextAlignment="Center"
                 Text="{Binding CaloriesSum}"
                 FontFamily="Courier New"
@@ -79,7 +79,7 @@
                 FontSize="30"/>
             <TextBlock 
                 Width="400" 
-                Margin="515,480,79,63" 
+                Margin="515,449,79,94" 
                 TextAlignment="Center"
                 VerticalAlignment="Center"
                 Text="{Binding ProtsFatsCarbsSums}"
@@ -95,6 +95,14 @@
                 Cursor="Hand"
                 Command="{Binding CleanButtonClick}" 
                 Height="32" VerticalAlignment="Top"/>
+            <TextBlock 
+                Margin="476,0,28,10" 
+                TextAlignment="Center"
+                VerticalAlignment="Bottom"
+                Text="{Binding Message}"
+                FontFamily="Courier New"
+                FontWeight="Bold"
+                Height="61"/>
         </Grid>
     </xctk:BusyIndicator>
 </Window>
