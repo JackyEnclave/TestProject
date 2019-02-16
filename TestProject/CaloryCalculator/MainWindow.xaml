@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:CaloryCalculator"
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
-        Title="Calorizzation" Height="600" Width="1000" ResizeMode="NoResize">
+        Title="Calorizzzation" Height="600" Width="1000" ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodel:ViewModel/>
     </Window.DataContext>
@@ -16,7 +16,7 @@
                             BusyContent="Обновление базы данных... Подождите">
         <Grid>
         <Image Source="View/Texture.jpg" Height="600"/>
-        <Image Source="View/Logo.png" Margin="804,468,0,10"/>
+        <Image Source="View/Logo.png" Margin="322,407,302,-95"/>
         <Button 
                 Margin="82,480,762,0" 
                 Content="Обновить" 
