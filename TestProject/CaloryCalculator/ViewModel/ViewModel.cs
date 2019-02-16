@@ -87,6 +87,16 @@ namespace CaloryCalculator
         }
 
 
+        /// <summary>
+        /// Вызов окна количества продуктов
+        /// </summary>
+        private void CallQuantityWindow()
+        {
+            View.DishQuantity dishQuantity = new View.DishQuantity();
+            dishQuantity.ShowDialog();
+        }
+
+
         #region Свойства
         private RelayCommand _buttonRefresh;
         public RelayCommand RefreshButtonClick
@@ -174,10 +184,25 @@ namespace CaloryCalculator
             {
                 Dish currDish = _allDishesList.FirstOrDefault(x => x.Name == value);
                 DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
-
-                View.DishQuantity dishQuantity = new View.DishQuantity();
-                dishQuantity.ShowDialog();
+                CallQuantityWindow();
                 
+                TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
+                RefreshInfo();
+
+                Utils.SerializeToJson("todaydishes", _todayDishesList);
+
+                DishQuantity = null;
+            }
+        }
+
+        public string SelectedObjectFromTodayDishes
+        {
+            set
+            {
+                Dish currDish = _allDishesList.FirstOrDefault(x => value.StartsWith(x.Name));
+                DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
+                CallQuantityWindow();
+
                 TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
                 RefreshInfo();
 

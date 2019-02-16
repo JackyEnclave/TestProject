@@ -61,7 +61,7 @@
                 BorderBrush="Transparent"
                 x:Name="todaymeal"
                 ItemsSource="{Binding TodayMeal}"
-                SelectedItem="{Binding TodayDishSelectedObject}"
+                SelectedItem="{Binding SelectedObjectFromTodayDishes}"
                 FontFamily="Courier New"
                 FontWeight="Bold"
                 Background="Transparent" 

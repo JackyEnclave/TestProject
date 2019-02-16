@@ -25,9 +25,10 @@ namespace CaloryCalculator
         /// </summary>
         internal static List<string> CreateDishesList(Dish currDish, double? dishQuantity, List<Dish> todayDishesList)
         {
-            if (todayDishesList.Contains(currDish) && dishQuantity != null)
+            if (todayDishesList.Any(x => x.Name == currDish.Name) && dishQuantity != null)
             {
-                todayDishesList[todayDishesList.IndexOf(currDish)].Quantity += (double)dishQuantity;
+                var dishFromList = todayDishesList.FirstOrDefault(x => x.Name == currDish.Name);
+                todayDishesList[todayDishesList.IndexOf(dishFromList)].Quantity += (double)dishQuantity;
             }
             else if (dishQuantity != null && dishQuantity != 0)
             {
