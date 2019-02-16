@@ -76,6 +76,7 @@ namespace CaloryCalculator
             double carbsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCarbs);
             double caloriesSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnCalories);
             CaloriesSum = _caloriesSum = $"{caloriesSum} ккал";
+            Message = _message = MessageCreator.GetMessage(_account, caloriesSum);
             ProtsFatsCarbsSums = _protsFatsCarbsSums = $"БЖУ: {(int)protsSum}/{(int)fatsSum}/{(int)carbsSum}";
         }
 
@@ -175,6 +176,14 @@ namespace CaloryCalculator
             get => _todayMeal;
             set => OnPropertyChanged(nameof(TodayMeal));
         }
+        
+        private string _message;
+        public string Message
+        {
+            get => _message;
+            set => OnPropertyChanged(nameof(Message));
+        }
+
         public static double? DishQuantity { get; set; }
         public static string UserInfo { get; set; }
 
@@ -188,7 +197,7 @@ namespace CaloryCalculator
                 
                 TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
                 RefreshInfo();
-
+                
                 Utils.SerializeToJson("todaydishes", _todayDishesList);
 
                 DishQuantity = null;
