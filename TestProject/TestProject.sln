@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28606.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaloryCalculator", "CaloryCalculator\CaloryCalculator.csproj", "{D66CD3A1-DD71-4E2C-8A9E-4618C1BD4BBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calorizzzation", "CaloryCalculator\Calorizzzation.csproj", "{D66CD3A1-DD71-4E2C-8A9E-4618C1BD4BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
