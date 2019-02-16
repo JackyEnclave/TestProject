@@ -81,6 +81,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.8.19076.18510, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xceed.Wpf.Toolkit.3.8.19076.18510\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -93,9 +96,6 @@
     <Compile Include="ViewModel\ViewModelUsersParameters.cs" />
     <Compile Include="View\DishQuantity.xaml.cs">
       <DependentUpon>DishQuantity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Refresh.xaml.cs">
-      <DependentUpon>Refresh.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserParams.xaml.cs">
       <DependentUpon>UserParams.xaml</DependentUpon>
@@ -113,10 +113,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\DishQuantity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Refresh.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

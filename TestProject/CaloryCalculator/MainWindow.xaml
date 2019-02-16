@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:CaloryCalculator"
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
@@ -10,7 +11,10 @@
     <Window.DataContext>
         <viewmodel:ViewModel/>
     </Window.DataContext>
-    <Grid>
+    <xctk:BusyIndicator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                            IsBusy="{Binding BusyIdicator, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
+                            BusyContent="Обновление базы данных... Подождите">
+        <Grid>
         <Image Source="View/Texture.jpg" Height="600"/>
         <Button 
                 Margin="82,480,762,0" 
@@ -19,7 +23,7 @@
                 FontFamily="Courier New"
                 RenderTransformOrigin="0.965,0.87" 
                 Cursor="Hand"
-                Command="{Binding RefreshButtonClick}" Height="32" VerticalAlignment="Top"/>
+                Command="{Binding RefreshButtonClick}" Height="32" VerticalAlignment="Top" IsCancel="True"/>
         <ListBox Width="400"
                 Height="351"
                 BorderBrush="Transparent"
@@ -91,4 +95,5 @@
                 Command="{Binding CleanButtonClick}" 
                 Height="32" VerticalAlignment="Top"/>
     </Grid>
+    </xctk:BusyIndicator>
 </Window>

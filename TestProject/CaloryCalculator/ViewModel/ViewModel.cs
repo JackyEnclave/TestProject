@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows;
 using System.Linq;
 using System.Windows.Input;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CaloryCalculator
 {
@@ -49,10 +51,15 @@ namespace CaloryCalculator
         /// </summary>
         private void SendRequestToRefresh()
         {
-            View.Refresh refresh = new View.Refresh();
-            refresh.Show();
-            Parser.ParseData();
-            refresh.Close();
+            BusyIdicator = true;
+            Task.Factory.StartNew(() =>
+            {
+                Parser.ParseData();
+                AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
+            }).ContinueWith((task) =>
+            {
+                if (task.IsCompleted) BusyIdicator = false;
+            });
         }
 
         private void RefreshInfo()
@@ -66,17 +73,21 @@ namespace CaloryCalculator
         }
 
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         #region Свойства
         private RelayCommand _buttonRefresh;
         public RelayCommand RefreshButtonClick
         {
             get
             {
-            return _buttonRefresh ??
-                (_buttonRefresh = new RelayCommand(obj =>
+                return _buttonRefresh ?? (_buttonRefresh = new RelayCommand(obj =>
                 {
-                    SendRequestToRefresh();
-                    AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
+                        SendRequestToRefresh();
                 }));
             }
         }
@@ -87,20 +98,15 @@ namespace CaloryCalculator
             get
             {
                 return _buttonClean ??
-                    (_buttonClean = new RelayCommand(obj =>
+                    (_buttonClean = new RelayCommand(execute: obj =>
                     {
                         TodayMeal = _todayMeal = new List<string>();
                         _todayDishesList = new List<Dish>();
                         RefreshInfo();
                         File.Delete(Dish.todayDishesPath);
-                    }));
+                    }, 
+                    canExecute: obj => _todayDishesList.Count != 0));
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         private List<string> _allDishesNames;
@@ -108,6 +114,20 @@ namespace CaloryCalculator
         {
             get => _allDishesNames;
             set => OnPropertyChanged(nameof(AllDishesNames));
+        }
+
+        private bool _indicator;
+        public bool BusyIdicator
+        {
+            get => _indicator;
+            set
+            {
+                if (value != _indicator)
+                {
+                    _indicator = value;
+                    OnPropertyChanged(nameof(BusyIdicator));
+                }
+            }
         }
 
         private string _caloriesSum;
