@@ -55,13 +55,20 @@ namespace CaloryCalculator
             Task.Factory.StartNew(() =>
             {
                 Parser.ParseData();
-                AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
             }).ContinueWith((task) =>
             {
-                if (task.IsCompleted) BusyIdicator = false;
+                if (task.IsCompleted)
+                {
+                    AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
+                    BusyIdicator = false;
+                }
             });
         }
 
+
+        /// <summary>
+        /// Обновление информации о калориях и БЖУ за сегодня
+        /// </summary>
         private void RefreshInfo()
         {
             double protsSum = Calculator.CalculateFinishSum(_todayDishesList, Calculator.returnProts);
@@ -78,6 +85,7 @@ namespace CaloryCalculator
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
 
         #region Свойства
         private RelayCommand _buttonRefresh;
