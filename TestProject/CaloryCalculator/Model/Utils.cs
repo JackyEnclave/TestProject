@@ -122,5 +122,26 @@ namespace CaloryCalculator
             return 
                 (isCorrect);
         }
+
+
+        internal static string getGenderName (Acc acc)
+        {
+            if (acc.Gender == Acc.Genders.MAN)
+                return "Мужской";
+            else if (acc.Gender == Acc.Genders.WOMAN)
+                return "Женский";
+            else return null;
+        }
+
+        internal static string getTargetName (Acc acc)
+        {
+            if (acc.Target == Acc.Targets.WEIGHTLOSING)
+                return "Похудение";
+            else if (acc.Target == Acc.Targets.WEIGHTSAVING)
+                return "Сохранение веса";
+            else if (acc.Target == Acc.Targets.WEIGHTGAINING)
+                return "Массонабор";
+            else return null;
+        }
     }
 }
