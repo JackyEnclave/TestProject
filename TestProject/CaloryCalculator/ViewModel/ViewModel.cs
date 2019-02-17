@@ -18,6 +18,7 @@ namespace CaloryCalculator
 
         public ViewModel()
         {
+            //создаем джейсон с продуктами при первом запуске
             if (!Utils.CheckOrCreateJson())
                 SendRequestToRefresh();
 
@@ -26,6 +27,7 @@ namespace CaloryCalculator
             TodayMeal = _todayMeal = Utils.DeserealizeJson(Dish.todayDishesPath, Dish.returnStringWithInfo, ref _todayDishesList);
             _account = Utils.DeserealizeJson(Acc.AccPath, ref _account);
 
+            //создаем аккаунт при первом запуске
             if (!File.Exists(Acc.AccPath) || File.ReadAllText(Acc.AccPath).Length == 0)
                 CreateAcc();
 
@@ -243,6 +245,24 @@ namespace CaloryCalculator
                 Utils.SerializeToJson("todaydishes", _todayDishesList);
 
                 DishQuantity = null;
+            }
+        }
+
+        // механизм поиска
+        private string _filterObject;
+        public string FilterObject
+        {
+            get => _filterObject; 
+            set
+            {
+                _filterObject = value;
+                _allDishesNames = new List<string>();
+                foreach (var item in _allDishesList)
+                {
+                    if (item.Name.ToLower().Contains(value.ToLower()))
+                        _allDishesNames.Add(item.Name);
+                }
+                AllDishesNames = _allDishesNames;
             }
         }
         #endregion

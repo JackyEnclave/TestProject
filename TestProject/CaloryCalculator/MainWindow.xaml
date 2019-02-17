@@ -99,6 +99,7 @@
                 Margin="476,0,28,10" 
                 TextAlignment="Center"
                 VerticalAlignment="Bottom"
+                TextWrapping="Wrap"
                 Text="{Binding Message}"
                 FontFamily="Courier New"
                 FontWeight="Bold"
@@ -111,6 +112,22 @@
                 RenderTransformOrigin="0.965,0.87" 
                 Cursor="Hand"
                 Command="{Binding RefreshAccButtonClick}" Height="32" VerticalAlignment="Top" IsCancel="True"/>
+            <TextBox
+                TextAlignment="Center"
+                FontFamily="Courier New"
+                FontWeight="Bold"
+                FontSize="20"
+                Text="{Binding FilterObject, UpdateSourceTrigger=PropertyChanged}" 
+                Width="234" Margin="237,480,523,49" RenderTransformOrigin="0.5,0.5">
+                <TextBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="1.123"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="0.314"/>
+                    </TransformGroup>
+                </TextBox.RenderTransform>
+            </TextBox>
         </Grid>
     </xctk:BusyIndicator>
 </Window>
