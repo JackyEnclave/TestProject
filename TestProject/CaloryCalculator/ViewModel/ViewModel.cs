@@ -27,19 +27,10 @@ namespace CaloryCalculator
             _account = Utils.DeserealizeJson(Acc.AccPath, ref _account);
 
             if (!File.Exists(Acc.AccPath) || File.ReadAllText(Acc.AccPath).Length == 0)
-            {
-                while (!Utils.CheckInputData(_account))
-                {
-                    MessageBox.Show("Нужно корректно заполнить поля. Буковки в поле 'Имя', циферки в поля 'Рост', 'Вес' и 'Возраст'", "Кто ты?", MessageBoxButton.OK, MessageBoxImage.Information);
-                    View.UserParams userParams = new View.UserParams();
-                    userParams.ShowDialog();
-                    _account = ViewModelUsersParameters.Acc;
-                }
-                Utils.SerializeToJson("acc", _account);
-            }
+                CreateAcc();
 
             //информация о пользователе
-            UserInfo = Calculator.CreateUserInformation(_account);
+            UserInfo = _userInfo = Calculator.CreateUserInformation(_account);
 
             //выводим корректную начальную сумму калорий, белков, жиров и углеводов
             RefreshInfo();
@@ -98,6 +89,19 @@ namespace CaloryCalculator
         }
 
 
+        private void CreateAcc()
+        {
+            while (!Utils.CheckInputData(_account))
+            {
+                MessageBox.Show("Нужно корректно заполнить поля. Буковки в поле 'Имя', циферки в поля 'Рост', 'Вес' и 'Возраст'", "Кто ты?", MessageBoxButton.OK, MessageBoxImage.Information);
+                View.UserParams userParams = new View.UserParams();
+                userParams.ShowDialog();
+                _account = ViewModelUsersParameters.Acc;
+            }
+            Utils.SerializeToJson("acc", _account);
+        }
+
+
         #region Свойства
         private RelayCommand _buttonRefresh;
         public RelayCommand RefreshButtonClick
@@ -107,6 +111,21 @@ namespace CaloryCalculator
                 return _buttonRefresh ?? (_buttonRefresh = new RelayCommand(obj =>
                 {
                         SendRequestToRefresh();
+                }));
+            }
+        }
+
+        private RelayCommand _buttonAccRefresh;
+        public RelayCommand RefreshAccButtonClick
+        {
+            get
+            {
+                return _buttonAccRefresh ?? (_buttonAccRefresh = new RelayCommand(obj =>
+                {
+                    _account = new Acc();
+                    File.Delete(Acc.AccPath);
+                    CreateAcc();
+                    UserInfo = _userInfo = Calculator.CreateUserInformation(_account);
                 }));
             }
         }
@@ -184,8 +203,14 @@ namespace CaloryCalculator
             set => OnPropertyChanged(nameof(Message));
         }
 
+        private string _userInfo;
+        public string UserInfo
+        {
+            get => _userInfo;
+            set => OnPropertyChanged(nameof(UserInfo));
+        }
+
         public static double? DishQuantity { get; set; }
-        public static string UserInfo { get; set; }
 
         public string SelectedObject
         {

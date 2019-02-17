@@ -24,10 +24,8 @@ namespace CaloryCalculator
             get => gens;
         }
 
-        private string _genderComboBoxSel;
         public string GenderComboBoxSel
         {
-            get => _genderComboBoxSel;
             set
             {
                 if (value == "Мужской")
@@ -45,10 +43,8 @@ namespace CaloryCalculator
             get => targets;
         }
 
-        private string _targetComboBoxSel;
         public string TargetComboBoxSel
         {
-            get => _targetComboBoxSel;
             set
             {
                 if (value == "Похудение")
