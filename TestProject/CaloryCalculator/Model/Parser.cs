@@ -21,17 +21,9 @@ namespace CaloryCalculator
 
             List<Dish> dishes = new List<Dish>();
 
-            for (int i = 1; i < 3; i++)
+            for (int i = 1; i < lastPage; i++)
             {
-                try
-                {
-                    htmlDocument.LoadHtml(webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
-                }
-                catch
-                {
-                    MessageBox.Show("Проверьте подключение к интернету и попробуйте снова", "Что-то пошло не так... :-(((", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Thread.Sleep(1000000);
-                }
+                htmlDocument.LoadHtml(webClient.DownloadString($"http://www.calorizator.ru/product/all?page={i}"));
                 HtmlNodeCollection nameNodes = FindHtmlNodes(htmlDocument, @".//td[contains(@class, 'views-field-title active')]");
                 HtmlNodeCollection protNodes = FindHtmlNodes(htmlDocument, @".//td[contains(@class, 'views-field-field-protein-value')]");
                 HtmlNodeCollection fatNodes = FindHtmlNodes(htmlDocument, @".//td[contains(@class, 'views-field-field-fat-value')]");
