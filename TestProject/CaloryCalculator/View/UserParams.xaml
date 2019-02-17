@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CaloryCalculator"
         xmlns:viewmodel="clr-namespace:CaloryCalculator"
         mc:Ignorable="d"
-        Title="Кто здесь самый жирный дрыщ?" Height="258.088" Width="477.059">
+        Title="Кто здесь самый жирный дрыщ?" Height="258.088" Width="477.059" ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodel:ViewModelUsersParameters/>
     </Window.DataContext>
