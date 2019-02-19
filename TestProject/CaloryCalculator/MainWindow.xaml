@@ -12,7 +12,7 @@
         <viewmodel:ViewModel/>
     </Window.DataContext>
     <xctk:BusyIndicator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                            IsBusy="{Binding BusyIdicator, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
+                            IsBusy="{Binding BusyIdicator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             BusyContent="Обновление базы данных... Подождите">
         <Grid>
             <Image Source="View/Texture.jpg" Height="600"/>
