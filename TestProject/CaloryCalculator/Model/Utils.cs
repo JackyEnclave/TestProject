@@ -49,25 +49,7 @@ namespace CaloryCalculator
         /// <summary>
         /// Создание информации о блюде для корректного вывода с учетом длины строки
         /// </summary>
-        internal static string CreateDishInfo(Dish currDish)
-        {
-            string newCurrDishName = string.Empty;
-            var splittingCurrDishName = currDish.Name.Split(' ');
-            int stringLenght = 25; //максимальная длина строки, помещающаяся на строчку в wpf
-
-            foreach (var name in splittingCurrDishName)
-            {
-                if (newCurrDishName.Length > stringLenght)
-                {
-                    newCurrDishName = $"{newCurrDishName}\n{name}";
-                    stringLenght += stringLenght;
-                }
-                else
-                    newCurrDishName = $"{newCurrDishName} {name}";
-            }
-
-            return $"{newCurrDishName}\n-----------\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
-        }
+        internal static string CreateDishInfo(Dish currDish) => $"{currDish.Name}\n-----------\nБелки: {currDish.Prots}\nЖиры: {currDish.Fats}\nУглеводы: {currDish.Carbohyds}\nКалории: {currDish.Calories}";
 
 
         /// <summary>

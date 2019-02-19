@@ -46,6 +46,7 @@
                 FontWeight = "Bold"
                 FontSize="20"
                 TextAlignment="Center"
+                TextWrapping="Wrap"
                 RenderTransformOrigin="1.118,0.505" 
                 Margin="515,184,79,188"/>
             <TextBlock 
