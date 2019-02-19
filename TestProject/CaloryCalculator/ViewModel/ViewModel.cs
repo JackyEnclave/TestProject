@@ -218,16 +218,21 @@ namespace CaloryCalculator
         {
             set
             {
-                Dish currDish = _allDishesList.FirstOrDefault(x => x.Name == value);
-                DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
-                CallQuantityWindow();
-                
-                TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
-                RefreshInfo();
-                
-                Utils.SerializeToJson("todaydishes", _todayDishesList);
+                if (_allDishesNames.Contains(value))
+                {
+                    Dish currDish = _allDishesList.FirstOrDefault(x => x.Name == value);
+                    if (currDish == null) currDish = new Dish();
 
-                DishQuantity = null;
+                    DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
+                    CallQuantityWindow();
+
+                    TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
+                    RefreshInfo();
+
+                    Utils.SerializeToJson("todaydishes", _todayDishesList);
+
+                    DishQuantity = null;
+                }
             }
         }
 
@@ -236,6 +241,8 @@ namespace CaloryCalculator
             set
             {
                 Dish currDish = _allDishesList.FirstOrDefault(x => value.StartsWith(x.Name));
+                if (currDish == null) currDish = new Dish();
+
                 DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
                 CallQuantityWindow();
 
@@ -256,13 +263,15 @@ namespace CaloryCalculator
             set
             {
                 _filterObject = value;
-                _allDishesNames = new List<string>();
-                foreach (var item in _allDishesList)
+                Task.Factory.StartNew(() =>
                 {
-                    if (item.Name.ToLower().Contains(value.ToLower()))
-                        _allDishesNames.Add(item.Name);
-                }
-                AllDishesNames = _allDishesNames;
+                    _allDishesNames = new List<string>();
+                    foreach (var item in _allDishesList)
+                    {
+                        if (item.Name.ToLower().Contains(value.ToLower()))
+                            _allDishesNames.Add(item.Name);
+                    }
+                }).ContinueWith((task) => AllDishesNames = _allDishesNames);
             }
         }
         #endregion
