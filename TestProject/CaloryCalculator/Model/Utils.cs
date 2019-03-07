@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CaloryCalculator
 {
-    class Utils
+    static class Utils
     {
         /// <summary>
         /// Проверка наличия json
@@ -72,7 +72,7 @@ namespace CaloryCalculator
         }
 
 
-        internal static Acc DeserealizeJson(string path, ref Acc account)
+        internal static Acc DeserealizeJson(string path)
         {
             if (!File.Exists(path) || File.ReadAllText(path).Length == 0) return null;
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Acc));

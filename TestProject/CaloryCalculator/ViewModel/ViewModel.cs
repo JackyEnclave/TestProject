@@ -25,7 +25,7 @@ namespace CaloryCalculator
             //десериализуем данные из джейсонов
             AllDishesNames = _allDishesNames = Utils.DeserealizeJson(Dish.allDishesList, Dish.returnCleanString, ref _allDishesList);
             TodayMeal = _todayMeal = Utils.DeserealizeJson(Dish.todayDishesPath, Dish.returnStringWithInfo, ref _todayDishesList);
-            _account = Utils.DeserealizeJson(Acc.AccPath, ref _account);
+            _account = Utils.DeserealizeJson(Acc.AccPath);
 
             //создаем аккаунт при первом запуске
             if (!File.Exists(Acc.AccPath) || File.ReadAllText(Acc.AccPath).Length == 0)
@@ -240,18 +240,21 @@ namespace CaloryCalculator
         {
             set
             {
-                Dish currDish = _allDishesList.FirstOrDefault(x => value.StartsWith(x.Name));
-                if (currDish == null) currDish = new Dish();
+                if (value != null)
+                {
+                    Dish currDish = _todayDishesList.FirstOrDefault(x => value.StartsWith(x.Name));
+                    if (currDish == null) currDish = new Dish();
 
-                DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
-                CallQuantityWindow();
+                    DishInfo = _dishInfo = Utils.CreateDishInfo(currDish);
+                    CallQuantityWindow();
 
-                TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
-                RefreshInfo();
+                    TodayMeal = _todayMeal = Utils.CreateDishesList(currDish, DishQuantity, _todayDishesList);
+                    RefreshInfo();
 
-                Utils.SerializeToJson("todaydishes", _todayDishesList);
+                    Utils.SerializeToJson("todaydishes", _todayDishesList);
 
-                DishQuantity = null;
+                    DishQuantity = null;
+                }
             }
         }
 
